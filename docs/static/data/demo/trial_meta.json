@@ -1,0 +1,12 @@
+{
+  "trial_name": "shapegen2501",
+  "condition": "shapegen",
+  "trial_idx": 386,
+  "oddity_index": 1,
+  "human_accuracy": null,
+  "display_mapping": {
+    "0": "A (same object)",
+    "1": "A' (same object, different viewpoint)",
+    "2": "B (different object / oddity)"
+  }
+}

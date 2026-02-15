@@ -1,0 +1,46 @@
+[
+  {
+    "trial": "shapegen386",
+    "dataset": "shapegen",
+    "condition": "abstract0",
+    "label": "Abstract shapes",
+    "description": "Procedurally generated 3D shapes with no semantic content",
+    "n_images": 3,
+    "oddity_index": 1,
+    "human_accuracy": 0.68,
+    "human_rt": 3930.0
+  },
+  {
+    "trial": "shapenet199",
+    "dataset": "shapenet",
+    "condition": "airplane",
+    "label": "Familiar objects",
+    "description": "Common object categories like chairs, cars, and airplanes",
+    "n_images": 3,
+    "oddity_index": 0,
+    "human_accuracy": 0.68,
+    "human_rt": 4072.0
+  },
+  {
+    "trial": "novel_high_screen12",
+    "dataset": "barense",
+    "condition": "abstract_hisim",
+    "label": "Novel objects",
+    "description": "Abstract greeble-like shapes at high visual similarity",
+    "n_images": 3,
+    "oddity_index": 2,
+    "human_accuracy": 0.68,
+    "human_rt": 6830.0
+  },
+  {
+    "trial": "familiar_high_screen36",
+    "dataset": "barense",
+    "condition": "familiar_hisim",
+    "label": "Familiar objects (hard)",
+    "description": "Familiar objects at high visual similarity",
+    "n_images": 3,
+    "oddity_index": 2,
+    "human_accuracy": 0.7,
+    "human_rt": 4881.0
+  }
+]

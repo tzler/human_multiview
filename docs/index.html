@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human-level 3D shape perception emerges from multi-view learning</title>
+    <link rel="stylesheet" href="static/css/style.css?v=20">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- HERO / TITLE -->
+<!-- ============================================================ -->
+<header id="hero" class="alt-bg">
+    <div class="container">
+        <h1>Human-level 3D shape perception<br>emerges from multi-view learning</h1>
+        <p class="authors">
+            <a href="#">Tyler Bonnen</a>,
+            <a href="#">Jitendra Malik</a>, and
+            <a href="#">Angjoo Kanazawa</a>
+        </p>
+        <p class="affiliation">University of California, Berkeley</p>
+        <div class="hero-links">
+            <a href="#" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>Paper</a>
+            <a href="https://github.com/tzler/human_multiview" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a>
+            <a href="#" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 2C4.01 2 2 4.01 2 6.5S4.01 11 6.5 11 11 8.99 11 6.5 8.99 2 6.5 2zm0 7C5.12 9 4 7.88 4 6.5S5.12 4 6.5 4 9 5.12 9 6.5 7.88 9 6.5 9zm11-7C15.01 2 13 4.01 13 6.5s2.01 4.5 4.5 4.5S22 8.99 22 6.5 19.99 2 17.5 2zm0 7C16.12 9 15 7.88 15 6.5S16.12 4 17.5 4 20 5.12 20 6.5 19.88 9 17.5 9zM12 13c-2.49 0-4.5 2.01-4.5 4.5S9.51 22 12 22s4.5-2.01 4.5-4.5S14.49 13 12 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5S10.62 15 12 15s2.5 1.12 2.5 2.5S13.38 20 12 20z"/></svg>Data</a>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- INTRO -->
+<!-- ============================================================ -->
+<section id="intro" class="section">
+    <div class="container narrow">
+        <p class="lede">
+            How do humans learn to perceive the three-dimensional structure of objects
+            from flat, two-dimensional images?
+        </p>
+        <p>
+            One view holds that this requires built-in, domain-specific knowledge
+            about objects and geometry&mdash;innate priors that constrain what we
+            can learn. The alternative is that 3D perception emerges from
+            general-purpose learning over the structured sensory data
+            we encounter as we move through the world.
+        </p>
+        <p>
+            For decades, computational models have fallen short of human 3D shape
+            perception, making it difficult to test between these theories. Here we
+            show that a simple learning objective&mdash;predicting the spatial
+            structure of scenes from sets of images&mdash;produces human-level
+            3D perception, without any object-specific inductive biases.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: INTERACTIVE ODDITY DEMO (the hook) -->
+<!-- ============================================================ -->
+<section id="oddity-demo" class="section alt-bg">
+    <div class="container">
+        <h2>Can you tell which object is different?</h2>
+        <p class="section-subtitle">
+            Each row shows three images. Two depict the same object from different
+            viewpoints; one depicts a different object. Click the odd one out&mdash;a
+            task that requires understanding 3D shape, not just matching pixels.
+        </p>
+
+        <div class="condition-tabs" id="condition-tabs">
+            <button class="condition-tab active" data-trial="0">Abstract shapes</button>
+            <button class="condition-tab" data-trial="1">Familiar objects</button>
+            <button class="condition-tab" data-trial="2">Novel objects</button>
+            <button class="condition-tab" data-trial="3">Familiar objects (hard)</button>
+        </div>
+
+        <div id="demo-trial" class="oddity-grid">
+            <!-- Populated dynamically by JS -->
+        </div>
+
+        <div id="demo-feedback" class="feedback hidden">
+            <p id="demo-result"></p>
+            <p id="demo-stats" class="feedback-stats"></p>
+        </div>
+
+        <p class="section-note">
+            These trials come from the <a href="https://huggingface.co/datasets/tzler/MOCHI">MOCHI benchmark</a>&mdash;a
+            large-scale dataset with over 2,000 trials and behavioral data from
+            more than 300 human participants.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: THE GAP (machines can't do this) -->
+<!-- ============================================================ -->
+<section id="mochi-gap" class="section">
+    <div class="container narrow">
+        <h2>Standard vision models fail at this task</h2>
+        <p>
+            You probably found that easy. State-of-the-art vision models don&rsquo;t.
+            Models like DINOv2 and CLIP&mdash;trained on billions of
+            images&mdash;fall far short of human accuracy, even at the largest scale.
+            The problem isn&rsquo;t the amount of training data. These models process
+            each image in isolation, never learning the spatial relationships that
+            connect different views of the same object.
+        </p>
+
+        <div class="figure-single">
+            <img src="static/media/mochi_model_failure.png" alt="Model performance vs. scale on MOCHI benchmark" class="figure-img figure-img-medium">
+            <p class="caption">
+                Scaling up model size improves performance for DINOv2 and CLIP,
+                but even the largest models fall far short of human accuracy (dashed line).
+                The problem is not scale&mdash;it&rsquo;s the learning objective.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: THE CLUE (the learning objective matters) -->
+<!-- ============================================================ -->
+<section id="learning-data" class="section alt-bg">
+    <div class="container narrow">
+        <h2>What if the problem is how models learn to see?</h2>
+        <p>
+            As infants, we don&rsquo;t learn about objects from isolated snapshots.
+            We explore&mdash;crawling, reaching, turning our heads&mdash;and
+            receive a continuous stream of multi-view sensory data: the same
+            objects and scenes, observed from changing viewpoints. This
+            visual-spatial experience may be what matters.
+        </p>
+
+        <div class="headcam-container">
+            <video loop muted playsinline preload="none" class="figure-video lazy-video">
+                <source src="static/media/headcam_example_web.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p class="caption">
+                Head-mounted cameras reveal that infants experience rich, structured
+                multi-view data as they explore&mdash;the same objects seen from
+                many different angles.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: THE INTERVENTION (new class of models) -->
+<!-- ============================================================ -->
+<section id="modeling" class="section">
+    <div class="container">
+        <h2>Multi-view models learn 3D structure from spatial prediction</h2>
+        <p style="max-width:var(--narrow-width)">
+            A recent class of vision transformers&mdash;DUSt3R, MASt3R,
+            VGGT&mdash;takes this idea seriously. Given sets of images from
+            different viewpoints, these models learn to predict depth, camera
+            pose, and geometric correspondence. The training signals are
+            analogous to cues available to biological visual systems: stereo
+            disparity, motion parallax, proprioception. Critically, a generic
+            transformer architecture learns all of this with no hand-coded
+            geometric priors&mdash;any understanding of 3D structure emerges
+            from the predictive relationship between images and spatial
+            information.
+        </p>
+
+        <div class="camera-viz-container" id="camera-viz-section">
+            <div class="camera-viz-row-3col">
+                <div class="camera-viz-panel">
+                    <div class="camera-viz-panel-label">Input video</div>
+                    <video loop muted playsinline preload="none" class="figure-video lazy-video" id="headcam-replay">
+                        <source src="static/media/headcam_cropped.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="camera-viz-panel">
+                    <div class="camera-viz-panel-label">Predicted depth</div>
+                    <img id="depth-display" src="static/data/headcam_cameras/depths/depth_00.jpg" alt="Depth map">
+                </div>
+                <div class="camera-viz-panel camera-viz-panel-wide">
+                    <div class="camera-viz-panel-label">Recovered cameras</div>
+                    <div class="camera-viz-canvas" id="camera-viz-3d"></div>
+                </div>
+            </div>
+            <p class="caption" style="text-align:center; max-width:640px; margin:0.8rem auto 0;">
+                Given frames from an infant headcam video, VGGT predicts
+                per-frame depth maps and recovers the 3D camera trajectory&mdash;without
+                any task-specific training. Drag to orbit.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4b: EVALUATION PROTOCOL -->
+<!-- ============================================================ -->
+<section id="evaluation" class="section alt-bg">
+    <div class="container">
+        <h2>We evaluate these models the same way we evaluate humans</h2>
+        <p class="section-subtitle">
+            We present the same oddity trials to both VGGT and human observers.
+            For the model, we leverage its internal uncertainty&mdash;a confidence
+            measure built into the training objective&mdash;to identify the odd
+            object out. No fine-tuning, no task-specific training.
+        </p>
+        <div class="figure-single" style="max-width:900px; margin:2rem auto;">
+            <img src="static/media/fig2_protocol.png" alt="Evaluation protocol: encode image pairs, extract pairwise uncertainty, identify the non-matching object as the pair with lowest confidence" class="figure-img" style="max-width:100%;">
+            <p class="caption">
+                <strong>Top:</strong> For each trial, we encode all image pairs
+                and extract the model&rsquo;s uncertainty. The non-matching object (B)
+                is identified as the lowest-confidence pair; the confidence
+                margin (&Delta;) provides a continuous measure of decision strength.
+                <strong>Middle:</strong> Activation norms across layers show
+                matching pairs (AA&prime;) diverging from non-matching pairs (AB/BA&prime;).
+                <strong>Bottom:</strong> The &ldquo;solution layer&rdquo;&mdash;the
+                earliest layer where the model reliably identifies the
+                oddity&mdash;provides a measure of processing depth.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: RESULTS (the payoff) -->
+<!-- ============================================================ -->
+<section id="results" class="section">
+    <div class="container">
+        <h2>The model matches human 3D perception</h2>
+        <p class="section-subtitle">
+            Across three independent measures, the model&rsquo;s behavior
+            corresponds to human perception&mdash;not just <em>what</em>
+            decisions are made, but <em>how difficult</em> each trial is
+            and <em>how long</em> the underlying computation takes.
+        </p>
+
+        <div class="figure-single" style="max-width:960px; margin:2rem auto;">
+            <img src="static/media/fig3_results.png" alt="Multi-view models match human 3D perception accuracy, error patterns, and reaction times" class="figure-img" style="max-width:100%;">
+            <p class="caption">
+                <strong>Left:</strong> VGGT matches human normalized accuracy (79% vs. 78%) and
+                dramatically outperforms single-image models like DINOv2 (26%).
+                <strong>Middle:</strong> Model confidence predicts human accuracy trial-by-trial
+                (<em>r</em>&nbsp;=&nbsp;0.83, <em>R</em>&sup2;&nbsp;=&nbsp;0.69)&mdash;trials
+                the model finds easy, humans find easy too.
+                <strong>Right:</strong> Model &ldquo;solution layer&rdquo; predicts human
+                reaction time (<em>&rho;</em>&nbsp;=&nbsp;0.80)&mdash;deeper processing
+                in the model corresponds to slower human responses.
+            </p>
+        </div>
+
+        <div class="results-summary">
+            <p>
+                These correspondences were never optimized for&mdash;they emerge
+                from multi-view learning alone. The model uses only its pre-trained
+                representations, with no task-specific training or fine-tuning.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: ATTENTION VISUALIZATIONS -->
+<!-- ============================================================ -->
+<section id="attention" class="section alt-bg">
+    <div class="container">
+        <h2>The model compares objects through spatial correspondence</h2>
+        <p class="section-subtitle">
+            How does the model represent whether two images show the same object?
+            We visualize cross-image attention: for each query point on image A,
+            we show where the model attends on the matching object (A&prime;)
+            versus the non-matching object (B).
+        </p>
+
+        <!-- Controls -->
+        <div class="attention-controls">
+            <label>Trial:
+                <select id="attn-trial-select"></select>
+            </label>
+            <div class="layer-slider-container">
+                <label>Layer: <span id="layer-label">0</span></label>
+                <input type="range" id="layer-slider" min="0" max="23" value="12" step="1">
+                <div class="layer-labels">
+                    <span>0 (early)</span>
+                    <span>12</span>
+                    <span>23 (late)</span>
+                </div>
+            </div>
+            <label class="attn-toggle">
+                <input type="checkbox" id="attn-mask-toggle"> Object mask
+            </label>
+        </div>
+
+        <!-- Attention visualization grid -->
+        <div class="attn-grid">
+            <!-- Source image A -->
+            <div class="attn-col">
+                <div class="attn-col-header">Source (A)</div>
+                <canvas id="attn-source" width="518" height="518"></canvas>
+            </div>
+            <!-- Reference images A' and B -->
+            <div class="attn-col">
+                <div class="attn-col-header">A&prime; (match)</div>
+                <canvas id="attn-ref-match" width="180" height="180"></canvas>
+                <div class="attn-col-header" style="margin-top:0.5rem">B (oddity)</div>
+                <canvas id="attn-ref-nonmatch" width="180" height="180"></canvas>
+            </div>
+            <!-- Heatmap columns (one per query point, generated by JS) -->
+            <div id="attn-heatmap-cols" class="attn-heatmap-cols">
+                <!-- JS will insert columns here -->
+            </div>
+        </div>
+
+        <p class="section-note">
+            In early layers, attention is diffuse and undifferentiated. By intermediate
+            layers, each query point on A elicits attention to the <em>corresponding
+            spatial location</em> on A&prime;&mdash;the same part of the object, seen
+            from a different angle. The model represents object similarity not through
+            abstract features, but through concrete spatial correspondence.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: OPEN QUESTIONS -->
+<!-- ============================================================ -->
+<section id="open-questions" class="section">
+    <div class="container narrow">
+        <h2>Open questions</h2>
+        <p>
+            These findings suggest that human-level 3D perception can emerge
+            from simple, scalable learning over structured visual-spatial
+            data&mdash;consistent with empiricist theories of perceptual
+            development. But they also raise new questions:
+        </p>
+
+        <div class="open-questions-list">
+            <div class="oq-item">
+                <h3>Biological constraints</h3>
+                <p>
+                    While VGGT&rsquo;s feedforward architecture reflects some
+                    aspects of neural processing, it lacks foveal sampling,
+                    recurrent dynamics, and other biological constraints. Which
+                    of these matter for human-like perception, and which can
+                    be safely abstracted away?
+                </p>
+            </div>
+
+            <div class="oq-item">
+                <h3>Ecologically plausible training</h3>
+                <p>
+                    Current multi-view models train on internet-scale datasets.
+                    What happens when we train on the visual experience actually
+                    available to developing infants? This would test whether
+                    the learning principles, not just the architecture, align
+                    with human development.
+                </p>
+            </div>
+
+            <div class="oq-item">
+                <h3>Essential learning objectives</h3>
+                <p>
+                    These models jointly predict depth, camera pose, and dense
+                    correspondence. Which objectives are essential for human-like
+                    3D perception, and which are redundant? Systematic ablations
+                    could identify the minimal recipe that produces human-level
+                    behavior.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FOOTER -->
+<!-- ============================================================ -->
+<footer>
+    <div class="container narrow">
+        <h2>Citation</h2>
+        <pre class="citation"><code>@article{bonnen2025multiview,
+  title={Human-level 3D shape perception emerges from multi-view learning},
+  author={Bonnen, Tyler and Malik, Jitendra and Kanazawa, Angjoo},
+  year={2025}
+}</code></pre>
+        <div class="footer-links">
+            <a href="https://github.com/tzler/human_multiview">Code &amp; Analysis</a>
+            <a href="https://huggingface.co/datasets/tzler/MOCHI">MOCHI Dataset</a>
+        </div>
+        <p class="acknowledgments">
+            This work is supported by the NIH (Award F99NS125816) and the UC Presidential
+            Postdoctoral Fellowship Award.
+        </p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="static/js/camera_viz.js?v=5"></script>
+<script src="static/js/main.js?v=22"></script>
+</body>
+</html>

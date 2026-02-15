@@ -1,0 +1,205 @@
+[
+  {
+    "id": 0,
+    "trial_name": "shapegen2501",
+    "condition": "shapegen",
+    "n_points": 3,
+    "points_px": [
+      [
+        414,
+        233
+      ],
+      [
+        269,
+        145
+      ],
+      [
+        207,
+        249
+      ]
+    ],
+    "patch_indices": [
+      621,
+      389,
+      643
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.02038886956870556
+  },
+  {
+    "id": 1,
+    "trial_name": "shapegen1562",
+    "condition": "shapegen",
+    "n_points": 3,
+    "points_px": [
+      [
+        155,
+        259
+      ],
+      [
+        233,
+        181
+      ],
+      [
+        363,
+        311
+      ]
+    ],
+    "patch_indices": [
+      677,
+      460,
+      839
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.02089768834412098
+  },
+  {
+    "id": 2,
+    "trial_name": "familiar_high_screen27",
+    "condition": "barense",
+    "n_points": 3,
+    "points_px": [
+      [
+        91,
+        172
+      ],
+      [
+        121,
+        344
+      ],
+      [
+        334,
+        223
+      ]
+    ],
+    "patch_indices": [
+      450,
+      896,
+      578
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.013668728061020374
+  },
+  {
+    "id": 3,
+    "trial_name": "novel_low_screen18",
+    "condition": "barense",
+    "n_points": 3,
+    "points_px": [
+      [
+        133,
+        296
+      ],
+      [
+        340,
+        400
+      ],
+      [
+        178,
+        148
+      ]
+    ],
+    "patch_indices": [
+      786,
+      1060,
+      382
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.015298699960112572
+  },
+  {
+    "id": 4,
+    "trial_name": "familiar_low_screen10",
+    "condition": "barense",
+    "n_points": 3,
+    "points_px": [
+      [
+        465,
+        243
+      ],
+      [
+        384,
+        304
+      ],
+      [
+        304,
+        243
+      ]
+    ],
+    "patch_indices": [
+      662,
+      804,
+      650
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.028268963098526
+  },
+  {
+    "id": 5,
+    "trial_name": "familiar_low_screen08",
+    "condition": "barense",
+    "n_points": 3,
+    "points_px": [
+      [
+        304,
+        384
+      ],
+      [
+        465,
+        223
+      ],
+      [
+        384,
+        304
+      ]
+    ],
+    "patch_indices": [
+      1020,
+      588,
+      804
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.025766843929886818
+  },
+  {
+    "id": 6,
+    "trial_name": "shapenet1402",
+    "condition": "shapenet",
+    "n_points": 3,
+    "points_px": [
+      [
+        192,
+        150
+      ],
+      [
+        207,
+        378
+      ],
+      [
+        347,
+        321
+      ]
+    ],
+    "patch_indices": [
+      383,
+      1013,
+      838
+    ],
+    "n_layers": 24,
+    "patch_h": 37,
+    "patch_w": 37,
+    "global_max": 0.027873221784830093
+  }
+]

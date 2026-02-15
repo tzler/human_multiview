@@ -1,0 +1,796 @@
+/* ============================================================
+   Project Page: Human-level 3D shape perception
+   ============================================================ */
+
+:root {
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+
+    --bg: #ffffff;
+    --bg-alt: #f7f5f2;
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --accent: #c03030;
+    --accent-light: #e8d4d4;
+    --border: #e0dcd6;
+
+    --max-width: 1100px;
+    --narrow-width: 740px;
+}
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Layout ---------- */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.container.narrow {
+    max-width: var(--narrow-width);
+}
+
+.section {
+    padding: 5rem 0;
+}
+
+.alt-bg {
+    background: var(--bg-alt);
+}
+
+/* ---------- Hero ---------- */
+#hero {
+    padding: 6rem 0 4rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+#hero h1 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 2.6rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+}
+
+.authors {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.authors a {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.affiliation {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-links {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.4rem;
+    border: 1.5px solid var(--text);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.15s;
+}
+
+.btn:hover {
+    background: var(--text);
+    color: var(--bg);
+    text-decoration: none;
+}
+
+.btn-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    margin-right: 0.35em;
+}
+
+/* ---------- Section headings ---------- */
+h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+}
+
+h3 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 640px;
+    margin-bottom: 2rem;
+}
+
+.section-note {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    max-width: 640px;
+}
+
+.lede {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+    color: var(--text);
+}
+
+p + p {
+    margin-top: 0.9rem;
+}
+
+.caption {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.6rem;
+    line-height: 1.5;
+}
+
+/* ---------- Oddity demo (Section 2) ---------- */
+.condition-tabs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.condition-tab {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.condition-tab:hover {
+    border-color: var(--text);
+    color: var(--text);
+}
+
+.condition-tab.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+}
+
+.oddity-grid {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.oddity-card {
+    width: 260px;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: border-color 0.15s, transform 0.15s;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.oddity-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border);
+}
+
+.oddity-card.correct {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 2px rgba(46,125,50,0.2);
+}
+
+.oddity-card.incorrect {
+    border-color: #c62828;
+    box-shadow: 0 0 0 2px rgba(198,40,40,0.2);
+}
+
+.oddity-card.revealed {
+    border-color: #2e7d32;
+    opacity: 0.7;
+}
+
+.oddity-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.feedback {
+    text-align: center;
+    padding: 1.2rem;
+    border-radius: 8px;
+    margin: 1rem auto;
+    max-width: 500px;
+}
+
+.feedback.hidden { display: none; }
+
+.feedback-stats {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.3rem;
+}
+
+/* ---------- Figures ---------- */
+.figure-single {
+    text-align: center;
+    margin: 2rem auto;
+}
+
+.figure-single .figure-img {
+    max-width: 370px;
+    margin: 0 auto;
+}
+
+.figure-single .figure-img-medium {
+    max-width: 500px;
+}
+
+.figure-single .figure-img-wide {
+    max-width: 600px;
+}
+
+.figure-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.figure-video {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.figure-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem auto;
+    max-width: 550px;
+}
+
+.figure-panel {
+    text-align: center;
+}
+
+.figure-panel .figure-img {
+    margin: 0 auto;
+}
+
+.figure-placeholder {
+    background: var(--bg-alt);
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 3rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+}
+
+.placeholder-text {
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+/* ---------- Object gallery ---------- */
+.object-gallery {
+    margin-top: 3rem;
+}
+
+.object-gallery h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.gallery-strip {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 1rem 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.gallery-strip img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+/* ---------- Headcam (Section 4) ---------- */
+.headcam-container {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.headcam-container .figure-video {
+    max-width: 370px;
+    margin: 0 auto;
+}
+
+.headcam-container .figure-placeholder {
+    max-width: 600px;
+    margin: 0 auto;
+    min-height: 340px;
+}
+
+/* ---------- Two-column layout (Section 5) ---------- */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin: 2rem 0;
+}
+
+.col-text p {
+    font-size: 0.95rem;
+}
+
+.col-figure .figure-placeholder {
+    min-height: 300px;
+}
+
+.col-figure .figure-video {
+    max-width: 450px;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.dl3dv-container {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.dl3dv-container .figure-video {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* ---------- Camera Viz (3D trajectory) ---------- */
+.camera-viz-container {
+    margin: 2.5rem 0 0;
+}
+
+.camera-viz-row-3col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    gap: 0.8rem;
+    align-items: start;
+    margin: 0 auto;
+}
+
+.camera-viz-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.camera-viz-panel-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.camera-viz-panel .figure-video,
+.camera-viz-panel img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: block;
+}
+
+.camera-viz-panel-wide {
+    min-width: 0;
+}
+
+.camera-viz-canvas {
+    width: 100%;
+    height: 280px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    overflow: hidden;
+}
+
+.camera-viz-controls {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .camera-viz-row-3col {
+        grid-template-columns: 1fr;
+    }
+    .camera-viz-canvas {
+        height: 240px;
+    }
+}
+
+.model-schematic {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.model-schematic .figure-placeholder {
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 200px;
+}
+
+/* ---------- Evaluation steps (Section 6) ---------- */
+.eval-steps {
+    display: flex;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.eval-step {
+    flex: 1;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--text);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.15rem;
+}
+
+.step-content h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+
+.step-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.eval-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.metric-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+}
+
+.metric-card h4 {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+}
+
+.metric-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* ---------- Results triptych (Section 7) ---------- */
+.results-triptych {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.result-panel {
+    text-align: center;
+}
+
+.result-panel h3 {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 0.8rem;
+}
+
+.chart-container {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.results-summary {
+    max-width: 640px;
+    margin: 2rem auto 0;
+    text-align: center;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+}
+
+/* ---------- Attention visualization (Section 6) ---------- */
+.attention-controls {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.attention-controls label {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.attention-controls select {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    margin-left: 0.3rem;
+}
+
+.layer-slider-container {
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+}
+
+.layer-slider-container label {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.layer-slider-container input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+}
+
+.layer-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-top: 0.15rem;
+}
+
+.attn-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.attn-toggle input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Attention grid layout */
+.attn-grid {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.attn-col {
+    flex-shrink: 0;
+    text-align: center;
+    align-self: center;
+}
+
+.attn-col-header {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+/* Source image A: taller, spans both rows visually */
+.attn-col #attn-source {
+    width: 180px;
+    height: 180px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* Reference A'/B images */
+.attn-col #attn-ref-match,
+.attn-col #attn-ref-nonmatch {
+    width: 180px;
+    height: 180px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+
+.attn-heatmap-cols {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.attn-point-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.attn-point-header {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.attn-point-col canvas {
+    width: 180px;
+    height: 180px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+
+/* ---------- Open Questions ---------- */
+.open-questions-list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.oq-item h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+}
+
+.oq-item p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* ---------- Footer ---------- */
+footer {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+}
+
+footer h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.citation {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.citation code {
+    font-family: var(--mono);
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links a {
+    font-weight: 500;
+}
+
+.acknowledgments {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    #hero h1 { font-size: 1.8rem; }
+    .figure-pair,
+    .two-col,
+    .results-triptych,
+    .eval-metrics { grid-template-columns: 1fr; }
+    .eval-steps { flex-direction: column; }
+    .oddity-card { width: 200px; }
+    .attention-viz { flex-direction: column; }
+    .attn-reference canvas { width: 160px; height: 160px; }
+}
