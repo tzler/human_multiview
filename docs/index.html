@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human-level 3D shape perception emerges from multi-view learning</title>
-    <link rel="stylesheet" href="static/css/style.css?v=20">
+    <link rel="stylesheet" href="static/css/style.css?v=21">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
@@ -40,17 +40,11 @@
             from flat, two-dimensional images?
         </p>
         <p>
-            One view holds that this requires built-in, domain-specific knowledge
-            about objects and geometry&mdash;innate priors that constrain what we
-            can learn. The alternative is that 3D perception emerges from
-            general-purpose learning over the structured sensory data
-            we encounter as we move through the world.
-        </p>
-        <p>
-            For decades, computational models have fallen short of human 3D shape
-            perception, making it difficult to test between these theories. Here we
-            show that a simple learning objective&mdash;predicting the spatial
-            structure of scenes from sets of images&mdash;produces human-level
+            Modeling this ability has been a longstanding goal for the science and
+            engineering of visual intelligence, yet decades of computational methods
+            have fallen short of human performance. Here we show that a simple
+            learning objective&mdash;predicting the spatial structure of scenes
+            from sets of images&mdash;is sufficient to produce human-level
             3D perception, without any object-specific inductive biases.
         </p>
     </div>
@@ -119,9 +113,42 @@
 </section>
 
 <!-- ============================================================ -->
+<!-- SECTION 2b: THEORETICAL FRAMING (why do they fail?) -->
+<!-- ============================================================ -->
+<section id="theories" class="section alt-bg">
+    <div class="container narrow">
+        <h2>Cognitive theories offer competing explanations</h2>
+        <p>
+            Why do standard vision models fail at 3D shape perception? This question
+            echoes a long-standing debate in the cognitive sciences about how humans
+            develop this ability in the first place.
+        </p>
+        <p>
+            <strong>Nativists</strong> argue that perceiving 3D structure requires
+            built-in, domain-specific knowledge&mdash;innate priors about objects
+            and geometry that constrain what can be learned. Under this view, standard
+            models fail because they lack the right inductive biases: without hard-coded
+            geometric priors, no amount of data will suffice.
+        </p>
+        <p>
+            <strong>Empiricists</strong> argue that 3D perception can emerge from
+            general-purpose learning, given the right kind of sensory experience.
+            Under this view, standard models fail not because they lack built-in
+            knowledge, but because they learn from the wrong data&mdash;static
+            images stripped of the spatial structure that defines natural visual
+            experience.
+        </p>
+        <p>
+            These hypotheses make distinct predictions about what it would take
+            to build a model that matches human 3D perception.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
 <!-- SECTION 3: THE CLUE (the learning objective matters) -->
 <!-- ============================================================ -->
-<section id="learning-data" class="section alt-bg">
+<section id="learning-data" class="section">
     <div class="container narrow">
         <h2>What if the problem is how models learn to see?</h2>
         <p>
@@ -149,7 +176,7 @@
 <!-- ============================================================ -->
 <!-- SECTION 4: THE INTERVENTION (new class of models) -->
 <!-- ============================================================ -->
-<section id="modeling" class="section">
+<section id="modeling" class="section alt-bg">
     <div class="container">
         <h2>Multi-view models learn 3D structure from spatial prediction</h2>
         <p style="max-width:var(--narrow-width)">
@@ -194,7 +221,7 @@
 <!-- ============================================================ -->
 <!-- SECTION 4b: EVALUATION PROTOCOL -->
 <!-- ============================================================ -->
-<section id="evaluation" class="section alt-bg">
+<section id="evaluation" class="section">
     <div class="container">
         <h2>We evaluate these models the same way we evaluate humans</h2>
         <p class="section-subtitle">
@@ -223,7 +250,7 @@
 <!-- ============================================================ -->
 <!-- SECTION 5: RESULTS (the payoff) -->
 <!-- ============================================================ -->
-<section id="results" class="section">
+<section id="results" class="section alt-bg">
     <div class="container">
         <h2>The model matches human 3D perception</h2>
         <p class="section-subtitle">
@@ -260,7 +287,7 @@
 <!-- ============================================================ -->
 <!-- SECTION 6: ATTENTION VISUALIZATIONS -->
 <!-- ============================================================ -->
-<section id="attention" class="section alt-bg">
+<section id="attention" class="section">
     <div class="container">
         <h2>The model compares objects through spatial correspondence</h2>
         <p class="section-subtitle">
@@ -322,7 +349,7 @@
 <!-- ============================================================ -->
 <!-- SECTION 7: OPEN QUESTIONS -->
 <!-- ============================================================ -->
-<section id="open-questions" class="section">
+<section id="open-questions" class="section alt-bg">
     <div class="container narrow">
         <h2>Open questions</h2>
         <p>
@@ -394,6 +421,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="static/js/camera_viz.js?v=5"></script>
-<script src="static/js/main.js?v=22"></script>
+<script src="static/js/main.js?v=23"></script>
 </body>
 </html>
