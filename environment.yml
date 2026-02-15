@@ -1,0 +1,28 @@
+name: human_multiview
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=1.26.4
+  - scipy
+  - pandas
+  - matplotlib
+  - scikit-image
+  - scikit-learn
+  - statsmodels
+  - tqdm
+  - jupyter
+  - ipywidgets
+  - pip
+  - pip:
+    - torch==2.5.1
+    - torchvision==0.20.1
+    - pillow
+    - datasets
+    - huggingface-hub
+    - einops
+    - safetensors
+    - roma
+    - opencv-python
+    - trimesh

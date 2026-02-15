@@ -9,16 +9,14 @@ We evaluate multi-view vision transformers (VGGT, DUST3R, MAST3R, Pi3) and a sin
 ```bash
 # Clone with submodules
 git clone --recursive https://github.com/tzler/human_multiview.git
-cd human-multiview
+cd human_multiview
 
-# Install
-pip install -e ".[notebooks]"
+# Create conda environment
+conda env create -f environment.yml
+conda activate human_multiview
 
-# Install model dependencies
-pip install -r repos/vggt/requirements.txt
-pip install -r repos/dust3r/requirements.txt
-pip install -r repos/mast3r/requirements.txt
-pip install -r repos/pi3/requirements.txt
+# Install this package
+pip install -e .
 ```
 
 ## Usage
