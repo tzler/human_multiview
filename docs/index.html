@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human-level 3D shape perception emerges from multi-view learning</title>
-    <link rel="stylesheet" href="static/css/style.css?v=23">
+    <link rel="stylesheet" href="static/css/style.css?v=24">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
@@ -36,16 +36,15 @@
 <section id="intro" class="section">
     <div class="container narrow">
         <p class="lede">
-            How do humans learn to perceive the three-dimensional structure of objects
-            from flat, two-dimensional images?
+            How do humans perceive the three-dimensional structure of objects
+            from two-dimensional visual inputs?
         </p>
         <p>
-            Modeling this ability has been a longstanding goal for the science and
-            engineering of visual intelligence, yet decades of computational methods
-            have fallen short of human performance. Here we show that a simple
-            learning objective&mdash;predicting the spatial structure of scenes
-            from sets of images&mdash;is sufficient to produce human-level
-            3D perception, without any object-specific inductive biases.
+            Understanding this ability has been a longstanding goal for both the science and engineering of visual intelligence, 
+            yet decades of computational methods have fallen short of human performance. 
+            Here we show that human-level 3D shape inferences emerge naturally when training neural networks using a 
+            visual-spatial learning objective over naturalistic sensory data. 
+            These results provide a bridge between cognitive theories and current practice in deep learning, revealing a novel route towards more human-like vision models.
         </p>
     </div>
 </section>
@@ -55,11 +54,12 @@
 <!-- ============================================================ -->
 <section id="oddity-demo" class="section alt-bg">
     <div class="container">
-        <h2>Can you tell which object is different?</h2>
+        <h2>Let's begin with a simple test from the cognitive sciences</h2>
         <p class="section-subtitle">
+            To understand human perceptual processes, the cognitive sciences have developed incisive tests of human abilities. 
+            This is a good one: Can you identify which of these images contains an object that is different from the other two? 
             Each row shows three images. Two depict the same object from different
-            viewpoints; one depicts a different object. Click the odd one out&mdash;a
-            task that requires understanding 3D shape, not just matching pixels.
+            viewpoints; one depicts a different object. Click the odd one out.
         </p>
 
         <div class="condition-tabs" id="condition-tabs">
@@ -93,20 +93,16 @@
     <div class="container narrow">
         <h2>Standard vision models fail at this task</h2>
         <p>
-            You probably found that easy. State-of-the-art vision models don&rsquo;t.
-            Models like DINOv2 and CLIP&mdash;trained on billions of
-            images&mdash;fall far short of human accuracy, even at the largest scale.
-            The problem isn&rsquo;t the amount of training data. These models process
-            each image in isolation, never learning the spatial relationships that
-            connect different views of the same object.
+            These kinds of tasks are no problem for humans, but standard vision models like DINOv2 and CLIP
+            fail to get close to human accuracy on these tasks. Even when we scale up model size. 
+            We've observed this failure across a wide range of architectures, training objectives, and datasets. 
+            The breadth of this human-model gap encourages us to consider what kind of learning gives rise to 3D perception in the first place.
         </p>
-
         <div class="figure-single">
             <img src="static/media/mochi_model_failure.png" alt="Model performance vs. scale on MOCHI benchmark" class="figure-img figure-img-medium">
             <p class="caption">
-                Scaling up model size improves performance for DINOv2 and CLIP,
+                Scaling up model size improves performance on 3D perception tasks from the cognitive sciences,
                 but even the largest models fall far short of human accuracy (dashed line).
-                The problem is not scale&mdash;it&rsquo;s the learning objective.
             </p>
         </div>
     </div>
@@ -116,31 +112,22 @@
 <!-- SECTION 2b: THEORETICAL FRAMING (why do they fail?) -->
 <!-- ============================================================ -->
 <section id="theories" class="section alt-bg">
-    <div class="container narrow">
-        <h2>Cognitive theories offer competing explanations</h2>
+    <div class="container">
+        <h2>Cognitive theories offer some explanations</h2>
         <p>
-            Why do standard vision models fail at 3D shape perception? This question
-            echoes a long-standing debate in the cognitive sciences about how humans
-            develop this ability in the first place.
+            Understanding why existing models fail leads us to competing theories about how humans
+            develop this ability.  
         </p>
         <p>
             <strong>Nativists</strong> argue that perceiving 3D structure requires
-            built-in, domain-specific knowledge&mdash;innate priors about objects
-            and geometry that constrain what can be learned. Under this view, standard
-            models fail because they lack the right inductive biases: without hard-coded
-            geometric priors, no amount of data will suffice.
+            built-in, domain-specific knowledge&mdash;innate priors that provide the constraints necessary for learning. Under this view,
+            models fail because they lack the right inductive biases.
         </p>
         <p>
-            <strong>Empiricists</strong> argue that 3D perception can emerge from
-            general-purpose learning, given the right kind of sensory experience.
-            Under this view, standard models fail not because they lack built-in
-            knowledge, but because they learn from the wrong data&mdash;static
-            images stripped of the spatial structure that defines natural visual
-            experience.
-        </p>
-        <p>
-            These hypotheses make distinct predictions about what it would take
-            to build a model that matches human 3D perception.
+            <strong>Empiricists</strong> argue that 3D perception emerges from
+            general-purpose learning over natural sensory experience.
+            Under this view, standard models fail because they learn from the wrong data&mdash;static
+            images stripped of the spatial structure.
         </p>
     </div>
 </section>
@@ -149,9 +136,9 @@
 <!-- SECTION 3: THE CLUE (human sensory experience) -->
 <!-- ============================================================ -->
 <section id="learning-data" class="section">
-    <div class="container">
-        <h2 style="max-width:var(--narrow-width)">What kind of data do humans learn from?</h2>
-        <p style="max-width:var(--narrow-width)">
+    <div class="container narrow">
+        <h2>Do models need more grounded visual data?</h2>
+        <p>
             As infants, we don&rsquo;t learn about objects from isolated snapshots.
             We explore&mdash;crawling, reaching, turning our heads&mdash;and
             receive a continuous stream of multi-modal sensory data: retinal
@@ -191,14 +178,12 @@
 <!-- ============================================================ -->
 <section id="modeling" class="section alt-bg">
     <div class="container">
-        <h2>Multi-view models learn 3D structure from spatial prediction</h2>
-        <p style="max-width:var(--narrow-width)">
-            A recent class of vision transformers&mdash;DUSt3R, MASt3R,
-            VGGT&mdash;takes this idea seriously. Given sets of images from
-            different viewpoints, these models learn to predict depth, camera
-            pose, and geometric correspondence. The training signals are
-            analogous to cues available to biological visual systems: stereo
-            disparity, motion parallax, proprioception. Critically, a generic
+        <h2>A new class of vision models learns from similar sensory data</h2>
+        <p>
+            A recent class of vision transformers learns from precisely this kind of structured visual-spatial data — 
+            and optimizes for the same signals that are available to biological visual systems.
+            Given sets of images from different viewpoints, these models learn to predict related spatial information 
+            such as depth, camera pose, or geometric correspondence. Critically, a generic
             transformer architecture learns all of this with no hand-coded
             geometric priors&mdash;any understanding of 3D structure emerges
             from the predictive relationship between images and spatial
@@ -225,8 +210,7 @@
         </div>
         <p class="caption" style="text-align:center; max-width:640px; margin:0.8rem auto 0;">
             Given a set of images, VGGT predicts per-frame depth maps and
-            camera poses&mdash;without any task-specific training or
-            fine-tuning.
+            camera poses.
         </p>
     </div>
 </section>
@@ -235,26 +219,21 @@
 <!-- SECTION 4b: EVALUATION PROTOCOL -->
 <!-- ============================================================ -->
 <section id="evaluation" class="section">
-    <div class="container">
-        <h2>We evaluate these models the same way we evaluate humans</h2>
+    <div class="container narrow">
+        <h2>We develop a 'zero-shot' evaluation framework</h2>
         <p class="section-subtitle">
             We present the same oddity trials to both VGGT and human observers.
             For the model, we leverage its internal uncertainty&mdash;a confidence
             measure built into the training objective&mdash;to identify the odd
             object out. No fine-tuning, no task-specific training.
         </p>
-        <div class="figure-single" style="max-width:900px; margin:2rem auto;">
+        <div class="figure-single">
             <img src="static/media/fig2_protocol.png" alt="Evaluation protocol: encode image pairs, extract pairwise uncertainty, identify the non-matching object as the pair with lowest confidence" class="figure-img" style="max-width:100%;">
             <p class="caption">
                 <strong>Top:</strong> For each trial, we encode all image pairs
                 and extract the model&rsquo;s uncertainty. The non-matching object (B)
                 is identified as the lowest-confidence pair; the confidence
                 margin (&Delta;) provides a continuous measure of decision strength.
-                <strong>Middle:</strong> Activation norms across layers show
-                matching pairs (AA&prime;) diverging from non-matching pairs (AB/BA&prime;).
-                <strong>Bottom:</strong> The &ldquo;solution layer&rdquo;&mdash;the
-                earliest layer where the model reliably identifies the
-                oddity&mdash;provides a measure of processing depth.
             </p>
         </div>
     </div>
@@ -265,15 +244,15 @@
 <!-- ============================================================ -->
 <section id="results" class="section alt-bg">
     <div class="container">
-        <h2>The model matches human 3D perception</h2>
-        <p class="section-subtitle">
+        <h2>Multi-view models predict human perceptual dynamics zero-shot</h2>
+        <p>
             Across three independent measures, the model&rsquo;s behavior
             corresponds to human perception&mdash;not just <em>what</em>
             decisions are made, but <em>how difficult</em> each trial is
             and <em>how long</em> the underlying computation takes.
         </p>
 
-        <div class="figure-single" style="max-width:960px; margin:2rem auto;">
+        <div class="figure-single">
             <img src="static/media/fig3_results.png" alt="Multi-view models match human 3D perception accuracy, error patterns, and reaction times" class="figure-img" style="max-width:100%;">
             <p class="caption">
                 <strong>Left:</strong> VGGT matches human normalized accuracy (79% vs. 78%) and
@@ -302,9 +281,10 @@
 <!-- ============================================================ -->
 <section id="attention" class="section">
     <div class="container">
-        <h2>The model compares objects through spatial correspondence</h2>
+        <h2>How do these multi-view models determine object similarity?</h2>
         <p class="section-subtitle">
-            How does the model represent whether two images show the same object?
+            These behavioral correspondences raise a mechanistic question: what kind of internal 
+            representation supports this human-like performance?
             We visualize cross-image attention: for each query point on image A,
             we show where the model attends on the matching object (A&prime;)
             versus the non-matching object (B).
@@ -360,9 +340,40 @@
 </section>
 
 <!-- ============================================================ -->
-<!-- SECTION 7: OPEN QUESTIONS -->
+<!-- SECTION 7: CONCLUSION -->
 <!-- ============================================================ -->
-<section id="open-questions" class="section alt-bg">
+<section id="conclusion" class="section alt-bg">
+    <div class="container narrow">
+        <h2>Bridging cognitive theory and machine learning</h2>
+        <p>
+            These results demonstrate a striking convergence: a model trained
+            on multi-view prediction&mdash;with no exposure to human behavioral
+            data&mdash;predicts the accuracy, error patterns, and temporal
+            dynamics of human 3D perception, all zero-shot. This kind of
+            evaluation is powerful precisely because it rules out the possibility
+            that human-model correspondence is an artifact of task-specific
+            optimization or linear re-weighting. What the model learns about the world transfers
+            directly to predicting human behavior.
+        </p>
+        <p>
+            In a broader sense, these findings connect longstanding cognitive
+            theories to current practice in deep learning. The empiricist claim
+            that perception emerges from general-purpose learning over structured
+            sensory experience&mdash;rather than from innate, domain-specific
+            knowledge&mdash;is, in many ways, a precursor to the modern
+            deep learning paradigm itself. The success of multi-view transformers
+            on human perceptual benchmarks suggests that this intellectual
+            lineage is more than analogical: the same principles that empiricists
+            proposed for biological vision may explain why today&rsquo;s
+            vision models succeed or fail.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: OPEN QUESTIONS -->
+<!-- ============================================================ -->
+<section id="open-questions" class="section">
     <div class="container narrow">
         <h2>Open questions</h2>
         <p>

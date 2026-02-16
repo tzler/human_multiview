@@ -629,7 +629,7 @@ p + p {
 }
 
 .results-summary {
-    max-width: 640px;
+    max-width: var(--narrow-width);
     margin: 2rem auto 0;
     text-align: center;
     font-family: var(--serif);
