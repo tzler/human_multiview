@@ -113,7 +113,7 @@
 <!-- ============================================================ -->
 <section id="theories" class="section alt-bg">
     <div class="container">
-        <h2>Cognitive theories offer some explanations</h2>
+        <h2>Cognitive theories offer competing interpretations of model failure</h2>
         <p>
             Understanding why existing models fail leads us to competing theories about how humans
             develop this ability.  
@@ -137,7 +137,7 @@
 <!-- ============================================================ -->
 <section id="learning-data" class="section">
     <div class="container narrow">
-        <h2>Do models need more grounded visual data?</h2>
+        <h2>What if we just need grounded visual data?</h2>
         <p>
             As infants, we don&rsquo;t learn about objects from isolated snapshots.
             We explore&mdash;crawling, reaching, turning our heads&mdash;and
@@ -178,7 +178,7 @@
 <!-- ============================================================ -->
 <section id="modeling" class="section alt-bg">
     <div class="container">
-        <h2>A new class of vision models learns from similar sensory data</h2>
+        <h2>A new class of models leverages these visual-spatial learning signals</h2>
         <p>
             A recent class of vision transformers learns from precisely this kind of structured visual-spatial data — 
             and optimizes for the same signals that are available to biological visual systems.
@@ -220,7 +220,7 @@
 <!-- ============================================================ -->
 <section id="evaluation" class="section">
     <div class="container">
-        <h2>We develop a 'zero-shot' evaluation framework</h2>
+        <h2>We develop a 'zero-shot' evaluation framework for 'multi-view' models</h2>
         <p class="section-subtitle">
             We present the same oddity trials to both VGGT and human observers.
             For the model, we leverage its internal uncertainty&mdash;a confidence
@@ -358,7 +358,7 @@
         <p>
             We find that neural networks trained on multi-view correspondence 
             &mdash;with no exposure to human experimental data&mdash;
-            predicts the accuracy, error patterns, and temporal dynamics of human 3D shape inferences. 
+            predict the accuracy, error patterns, and temporal dynamics of human 3D shape inferences. 
             Critically, our zero-shot evaluation approach rules out the possibility
             that this correspondence is an artifact of task-specific
             training or linear re-weighting. 
@@ -369,7 +369,7 @@
             theory and current practice in deep learning. The empiricist claim
             that perception emerges from general-purpose learning over structured
             sensory experience&mdash;rather than from innate, domain-specific
-            knowledge&mdash;is, in many ways, a precursor to the pprevailing
+            knowledge&mdash;is, in many ways, a precursor to the prevailing
             deep learning paradigm. The emergent alignment between multi-view transformers
             and human perception suggests that this is not only an intellectual
             lineage, but an opportunity to formalize and evaluate longstanding theories of human perception.   
@@ -382,36 +382,40 @@
 <!-- ============================================================ -->
 <section id="open-questions" class="section">
     <div class="container narrow">
-        <h2>Open questions + collaborative opportunities </h2>
+        <h2>Open questions and future directions</h2>
         <p>
-            These findings indicate that human-level 3D perception can emerge
-            from simple, scalable learning over structured visual-spatial
-            data&mdash;consistent with empiricist theories of perceptual
-            development. This raises exciting questions  
-            at the intersection of neurosciece, cognitive science, and computer science:
+            Our work raises exciting questions at the intersection of cognitive science, 
+            neuroscience, and computer science.
+            What learning objectives and data distributions are essential for human-like 3D perception? 
+            Can we design models that better reflect the architectural and 
+            algorithmic constraints on human vision? 
+            How can we learn from infant-scale data? 
+            These are questions that extend well beyond 3D shape inferences. 
+            We're actively pursuing these ideas and are always looking for new 
+            collaborators interested in this multi-disciplinary approach.
+            Feel free to reach out: <a href="mailto:bonnen@berkeley.edu">bonnen@berkeley.edu</a>
         </p>
 
-        <div class="open-questions-list">
+        <!-- <div class="open-questions-list">
             <div class="oq-item">
-                <h3>Biological constraints on model architecture</h3>
+                <h3>Biological and ethological constraints on visual systems</h3>
                 <p>
-                    While VGGT&rsquo;s feedforward architecture reflects some
-                    aspects of neural processing, it lacks foveal sampling,
+                    Can we design models that reflect the foveal sampling,
                     recurrent dynamics, and other biological constraints. 
                     Can we design models to reflect these architectural constraints? 
                 </p>
-            </div>
+            </div> -->
 
-            <div class="oq-item">
+            <!-- <div class="oq-item">
                 <h3>Ecologically plausible training data</h3>
                 <p>
                     Current multi-view models train on internet-scale datasets that are analogous to,
                     but quite different from, the visual experience available to developing infants.
                     What learn algorithms are needed to learn from infant-scale data?
                 </p>
-            </div>
+            </div> -->
 
-            <div class="oq-item">
+            <!-- <div class="oq-item">
                 <h3>Underlying design principles</h3>
                 <p>
                     What learning objectives and data distributions are essential for human-like
@@ -419,8 +423,7 @@
                     could identify the minimal recipe that produces human-level
                     behavior.
                 </p>
-            </div>
-        </div>
+            </div> -->
     </div>
 </section>
 
