@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human-level 3D shape perception emerges from multi-view learning</title>
-    <link rel="stylesheet" href="static/css/style.css?v=24">
+    <link rel="stylesheet" href="static/css/style.css?v=33">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
@@ -219,7 +219,7 @@
 <!-- SECTION 4b: EVALUATION PROTOCOL -->
 <!-- ============================================================ -->
 <section id="evaluation" class="section">
-    <div class="container narrow">
+    <div class="container">
         <h2>We develop a 'zero-shot' evaluation framework</h2>
         <p class="section-subtitle">
             We present the same oddity trials to both VGGT and human observers.
@@ -252,18 +252,28 @@
             and <em>how long</em> the underlying computation takes.
         </p>
 
-        <div class="figure-single">
-            <img src="static/media/fig3_results.png" alt="Multi-view models match human 3D perception accuracy, error patterns, and reaction times" class="figure-img" style="max-width:100%;">
-            <p class="caption">
-                <strong>Left:</strong> VGGT matches human normalized accuracy (79% vs. 78%) and
-                dramatically outperforms single-image models like DINOv2 (26%).
-                <strong>Middle:</strong> Model confidence predicts human accuracy trial-by-trial
-                (<em>r</em>&nbsp;=&nbsp;0.83, <em>R</em>&sup2;&nbsp;=&nbsp;0.69)&mdash;trials
-                the model finds easy, humans find easy too.
-                <strong>Right:</strong> Model &ldquo;solution layer&rdquo; predicts human
-                reaction time (<em>&rho;</em>&nbsp;=&nbsp;0.80)&mdash;deeper processing
-                in the model corresponds to slower human responses.
-            </p>
+        <div class="results-triptych">
+            <div class="result-panel">
+                <h3>Accuracy</h3>
+                <div class="chart-container">
+                    <canvas id="chart-accuracy" width="320" height="260"></canvas>
+                </div>
+                <p class="caption">VGGT matches human accuracy (79% vs. 78%) and dramatically outperforms DINOv2 (26%).</p>
+            </div>
+            <div class="result-panel">
+                <h3>Error patterns</h3>
+                <div class="chart-container">
+                    <canvas id="chart-confidence" width="320" height="260"></canvas>
+                </div>
+                <p class="caption">Model confidence predicts human accuracy trial-by-trial (<em>r</em>&nbsp;=&nbsp;0.83, <em>R</em>&sup2;&nbsp;=&nbsp;0.69).</p>
+            </div>
+            <div class="result-panel">
+                <h3>Reaction time</h3>
+                <div class="chart-container">
+                    <canvas id="chart-rt" width="320" height="260"></canvas>
+                </div>
+                <p class="caption">Model solution layer predicts human RT (<em>&rho;</em>&nbsp;=&nbsp;0.80)&mdash;deeper processing corresponds to slower responses.</p>
+            </div>
         </div>
 
         <div class="results-summary">
@@ -343,29 +353,26 @@
 <!-- SECTION 7: CONCLUSION -->
 <!-- ============================================================ -->
 <section id="conclusion" class="section alt-bg">
-    <div class="container narrow">
+    <div class="container">
         <h2>Bridging cognitive theory and machine learning</h2>
         <p>
-            These results demonstrate a striking convergence: a model trained
-            on multi-view prediction&mdash;with no exposure to human behavioral
-            data&mdash;predicts the accuracy, error patterns, and temporal
-            dynamics of human 3D perception, all zero-shot. This kind of
-            evaluation is powerful precisely because it rules out the possibility
-            that human-model correspondence is an artifact of task-specific
-            optimization or linear re-weighting. What the model learns about the world transfers
-            directly to predicting human behavior.
+            We find that neural networks trained on multi-view correspondence 
+            &mdash;with no exposure to human experimental data&mdash;
+            predicts the accuracy, error patterns, and temporal dynamics of human 3D shape inferences. 
+            Critically, our zero-shot evaluation approach rules out the possibility
+            that this correspondence is an artifact of task-specific
+            training or linear re-weighting. 
+            Rather, the design and optimization of this model leads to a natural alignment with human behavior.
         </p>
         <p>
-            In a broader sense, these findings connect longstanding cognitive
-            theories to current practice in deep learning. The empiricist claim
+            These findings provide a computational bridge between cognitive
+            theory and current practice in deep learning. The empiricist claim
             that perception emerges from general-purpose learning over structured
             sensory experience&mdash;rather than from innate, domain-specific
-            knowledge&mdash;is, in many ways, a precursor to the modern
-            deep learning paradigm itself. The success of multi-view transformers
-            on human perceptual benchmarks suggests that this intellectual
-            lineage is more than analogical: the same principles that empiricists
-            proposed for biological vision may explain why today&rsquo;s
-            vision models succeed or fail.
+            knowledge&mdash;is, in many ways, a precursor to the pprevailing
+            deep learning paradigm. The emergent alignment between multi-view transformers
+            and human perception suggests that this is not only an intellectual
+            lineage, but an opportunity to formalize and evaluate longstanding theories of human perception.   
         </p>
     </div>
 </section>
@@ -375,42 +382,39 @@
 <!-- ============================================================ -->
 <section id="open-questions" class="section">
     <div class="container narrow">
-        <h2>Open questions</h2>
+        <h2>Open questions + collaborative opportunities </h2>
         <p>
-            These findings suggest that human-level 3D perception can emerge
+            These findings indicate that human-level 3D perception can emerge
             from simple, scalable learning over structured visual-spatial
             data&mdash;consistent with empiricist theories of perceptual
-            development. But they also raise new questions:
+            development. This raises exciting questions  
+            at the intersection of neurosciece, cognitive science, and computer science:
         </p>
 
         <div class="open-questions-list">
             <div class="oq-item">
-                <h3>Biological constraints</h3>
+                <h3>Biological constraints on model architecture</h3>
                 <p>
                     While VGGT&rsquo;s feedforward architecture reflects some
                     aspects of neural processing, it lacks foveal sampling,
-                    recurrent dynamics, and other biological constraints. Which
-                    of these matter for human-like perception, and which can
-                    be safely abstracted away?
+                    recurrent dynamics, and other biological constraints. 
+                    Can we design models to reflect these architectural constraints? 
                 </p>
             </div>
 
             <div class="oq-item">
-                <h3>Ecologically plausible training</h3>
+                <h3>Ecologically plausible training data</h3>
                 <p>
-                    Current multi-view models train on internet-scale datasets.
-                    What happens when we train on the visual experience actually
-                    available to developing infants? This would test whether
-                    the learning principles, not just the architecture, align
-                    with human development.
+                    Current multi-view models train on internet-scale datasets that are analogous to,
+                    but quite different from, the visual experience available to developing infants.
+                    What learn algorithms are needed to learn from infant-scale data?
                 </p>
             </div>
 
             <div class="oq-item">
-                <h3>Essential learning objectives</h3>
+                <h3>Underlying design principles</h3>
                 <p>
-                    These models jointly predict depth, camera pose, and dense
-                    correspondence. Which objectives are essential for human-like
+                    What learning objectives and data distributions are essential for human-like
                     3D perception, and which are redundant? Systematic ablations
                     could identify the minimal recipe that produces human-level
                     behavior.
@@ -445,6 +449,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="static/js/camera_viz.js?v=5"></script>
-<script src="static/js/main.js?v=36"></script>
+<script src="static/js/main.js?v=37"></script>
 </body>
 </html>

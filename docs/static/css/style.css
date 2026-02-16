@@ -139,7 +139,6 @@ h3 {
 .section-subtitle {
     color: var(--text-secondary);
     font-size: 1rem;
-    max-width: 640px;
     margin-bottom: 2rem;
 }
 
@@ -147,7 +146,7 @@ h3 {
     margin-top: 2rem;
     font-size: 0.9rem;
     color: var(--text-secondary);
-    max-width: 640px;
+    text-align: center;
 }
 
 .lede {
@@ -371,7 +370,7 @@ p + p {
 }
 
 .sensory-label {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.72rem;
     font-weight: 600;
     color: var(--text-secondary);
@@ -472,7 +471,7 @@ p + p {
 }
 
 .camera-viz-panel-label {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.72rem;
     font-weight: 600;
     color: var(--text-secondary);
@@ -583,7 +582,7 @@ p + p {
 }
 
 .metric-card h4 {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.85rem;
     color: var(--accent);
     margin-bottom: 0.3rem;
@@ -607,7 +606,7 @@ p + p {
 }
 
 .result-panel h3 {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -624,8 +623,8 @@ p + p {
 }
 
 .chart-container canvas {
-    width: 100% !important;
-    height: auto !important;
+    max-width: 100%;
+    height: auto;
 }
 
 .results-summary {
@@ -716,7 +715,7 @@ p + p {
 }
 
 .attn-col-header {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.72rem;
     font-weight: 600;
     color: var(--text-secondary);
@@ -753,7 +752,7 @@ p + p {
 }
 
 .attn-point-header {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.72rem;
     font-weight: 500;
     color: var(--text-secondary);
@@ -790,7 +789,7 @@ p + p {
 footer {
     padding: 4rem 0;
     border-top: 1px solid var(--border);
-    background: var(--bg);
+    background: var(--bg-alt);
 }
 
 footer h2 {
@@ -799,7 +798,7 @@ footer h2 {
 }
 
 .citation {
-    background: var(--bg-alt);
+    background: #fff;
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1rem 1.2rem;
