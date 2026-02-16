@@ -785,6 +785,408 @@ function drawHeatmapOnCanvas(canvas, heatmapData, pH, pW, bgImg, pointMax, mask)
 }
 
 
+// ---------- Sensory Signals (synced video + depth + axis gizmo) ----------
+
+let cameraPoses = null;
+
+async function initSensorySignals() {
+    const canvas = document.getElementById('sensory-motion');
+    const video = document.getElementById('sensory-video');
+    const depth = document.getElementById('sensory-depth');
+    if (!canvas || !video) return;
+
+    // Load camera poses (extrinsics with rotation matrices)
+    try {
+        const resp = await fetch('static/data/headcam_cameras/camera_poses.json');
+        cameraPoses = await resp.json();
+    } catch (e) {
+        console.warn('Could not load camera poses', e);
+        return;
+    }
+
+    // Set up canvas for HiDPI
+    function sizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const w = rect.width || 280;
+        const h = rect.height || 280;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+    }
+    sizeCanvas();
+
+    // Draw initial frame
+    drawAxisGizmo(canvas, 0, 0);
+
+    // Smooth animation loop using requestAnimationFrame
+    let sensoryPlaying = false;
+    function animateGizmo() {
+        if (sensoryPlaying && !video.paused) {
+            const progress = video.currentTime / video.duration;
+            const fractionalFrame = progress * (cameraPoses.n_frames - 1);
+            const frameA = Math.floor(fractionalFrame);
+            const frameB = Math.min(frameA + 1, cameraPoses.n_frames - 1);
+            const t = fractionalFrame - frameA;
+            drawAxisGizmo(canvas, frameA, t);
+
+            // Sync depth video periodically
+            if (depth && Math.abs(depth.currentTime - video.currentTime) > 0.3) {
+                depth.currentTime = video.currentTime;
+            }
+        }
+        requestAnimationFrame(animateGizmo);
+    }
+    requestAnimationFrame(animateGizmo);
+
+    // Play/pause both videos together via IntersectionObserver
+    const section = document.getElementById('sensory-signals');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sensoryPlaying = true;
+                video.play().catch(() => {});
+                if (depth) depth.play().catch(() => {});
+            } else {
+                sensoryPlaying = false;
+                video.pause();
+                if (depth) depth.pause();
+            }
+        });
+    }, { threshold: 0.25 });
+    observer.observe(section);
+}
+
+// ---------- Model Signals (same layout, greenhouse data) ----------
+
+let modelPoses = null;
+
+// View angles for the camera trail canvas (radians)
+// Default: elevated view looking down at ~55 degrees, rotated ~30 degrees
+let trailAzimuth = 0.5;     // ~30 degrees
+let trailElevation = 0.95;  // ~55 degrees
+
+async function initModelSignals() {
+    const canvas = document.getElementById('model-motion');
+    const video = document.getElementById('model-video');
+    const depth = document.getElementById('model-depth');
+    if (!canvas || !video) return;
+
+    // Load camera poses
+    try {
+        const resp = await fetch('static/data/greenhouse_cameras/camera_poses.json');
+        modelPoses = await resp.json();
+    } catch (e) {
+        console.warn('Could not load model camera poses', e);
+        return;
+    }
+
+    // Set up canvas for HiDPI
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width || 280;
+    const h = rect.height || 280;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    canvas.style.cursor = 'grab';
+
+    // Mouse drag to orbit the view
+    let dragging = false, lastX = 0, lastY = 0;
+    canvas.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+        canvas.style.cursor = 'grabbing';
+    });
+    canvas.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        trailAzimuth += dx * 0.01;
+        trailElevation = Math.max(0.1, Math.min(Math.PI / 2 - 0.05, trailElevation + dy * 0.01));
+        lastX = e.clientX;
+        lastY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', (e) => {
+        dragging = false;
+        canvas.releasePointerCapture(e.pointerId);
+        canvas.style.cursor = 'grab';
+    });
+
+    // Draw initial frame
+    drawAxisTrail(canvas, 0, 0, modelPoses);
+
+    // Smooth animation loop — redraws every frame (needed for drag interaction too)
+    let modelPlaying = false;
+    let lastFrameA = 0, lastT = 0;
+    function animateModelGizmo() {
+        if (modelPlaying && !video.paused) {
+            const progress = video.currentTime / video.duration;
+            const fractionalFrame = progress * (modelPoses.n_frames - 1);
+            lastFrameA = Math.floor(fractionalFrame);
+            lastT = fractionalFrame - lastFrameA;
+        }
+        drawAxisTrail(canvas, lastFrameA, lastT, modelPoses);
+
+        // Sync depth video
+        if (modelPlaying && depth && !video.paused && Math.abs(depth.currentTime - video.currentTime) > 0.3) {
+            depth.currentTime = video.currentTime;
+        }
+        requestAnimationFrame(animateModelGizmo);
+    }
+    requestAnimationFrame(animateModelGizmo);
+
+    // Play/pause via IntersectionObserver
+    const section = document.getElementById('model-signals');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                modelPlaying = true;
+                video.play().catch(() => {});
+                if (depth) depth.play().catch(() => {});
+            } else {
+                modelPlaying = false;
+                video.pause();
+                if (depth) depth.pause();
+            }
+        });
+    }, { threshold: 0.25 });
+    observer.observe(section);
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function normalize3(v) {
+    const len = Math.sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
+    return len > 0 ? [v[0]/len, v[1]/len, v[2]/len] : v;
+}
+
+// Extract camera position in world space from extrinsic: pos = -R^T * t
+function getCamPos(ext) {
+    const t = [ext[0][3], ext[1][3], ext[2][3]];
+    // R^T * t
+    return [
+        -(ext[0][0]*t[0] + ext[1][0]*t[1] + ext[2][0]*t[2]),
+        -(ext[0][1]*t[0] + ext[1][1]*t[1] + ext[2][1]*t[2]),
+        -(ext[0][2]*t[0] + ext[1][2]*t[1] + ext[2][2]*t[2]),
+    ];
+}
+
+// Get camera axes (columns of R^T = rows of R) from extrinsic
+function getCamAxes(ext) {
+    return {
+        x: [ext[0][0], ext[0][1], ext[0][2]],
+        y: [ext[1][0], ext[1][1], ext[1][2]],
+        z: [ext[2][0], ext[2][1], ext[2][2]],
+    };
+}
+
+// Precompute bounding box for all camera positions (cached per poses object)
+function getTrajectoryBounds(poses) {
+    if (poses._bounds) return poses._bounds;
+    let minX = Infinity, maxX = -Infinity;
+    let minY = Infinity, maxY = -Infinity;
+    let minZ = Infinity, maxZ = -Infinity;
+    for (let i = 0; i < poses.n_frames; i++) {
+        const p = getCamPos(poses.extrinsics[i]);
+        if (p[0] < minX) minX = p[0]; if (p[0] > maxX) maxX = p[0];
+        if (p[1] < minY) minY = p[1]; if (p[1] > maxY) maxY = p[1];
+        if (p[2] < minZ) minZ = p[2]; if (p[2] > maxZ) maxZ = p[2];
+    }
+    const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2, cz = (minZ + maxZ) / 2;
+    const range = Math.max(maxX - minX, maxY - minY, maxZ - minZ, 0.001);
+    poses._bounds = { cx, cy, cz, range };
+    return poses._bounds;
+}
+
+// Single-gizmo mode (headcam sensory section)
+function drawAxisGizmo(canvas, frameIdx, t, poses) {
+    poses = poses || cameraPoses;
+    if (!poses) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.width / dpr;
+    const h = canvas.height / dpr;
+
+    ctx.save();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    t = t || 0;
+    const frameB = Math.min(frameIdx + 1, poses.n_frames - 1);
+    const extA = poses.extrinsics[frameIdx];
+    const extB = poses.extrinsics[frameB];
+
+    // Lerp axes
+    const axX = normalize3([lerp(extA[0][0],extB[0][0],t), lerp(extA[0][1],extB[0][1],t), lerp(extA[0][2],extB[0][2],t)]);
+    const axY = normalize3([lerp(extA[1][0],extB[1][0],t), lerp(extA[1][1],extB[1][1],t), lerp(extA[1][2],extB[1][2],t)]);
+    const axZ = normalize3([lerp(extA[2][0],extB[2][0],t), lerp(extA[2][1],extB[2][1],t), lerp(extA[2][2],extB[2][2],t)]);
+
+    const cx = w / 2, cy = h / 2;
+    const scale = Math.min(w, h) * 0.32;
+
+    function project(v) {
+        const px = v[0] * 0.95 + v[2] * 0.25;
+        const py = -(v[1] * 0.95 + v[2] * 0.15);
+        return [cx + px * scale, cy + py * scale];
+    }
+
+    const axes = [
+        { v: axX, color: '#e63946', label: 'X' },
+        { v: axY, color: '#2a9d8f', label: 'Z' },
+        { v: axZ, color: '#457b9d', label: 'Y' },
+    ];
+    axes.sort((a, b) => a.v[2] - b.v[2]);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.fill();
+
+    for (const axis of axes) {
+        const [ex, ey] = project(axis.v);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(ex, ey);
+        ctx.strokeStyle = axis.color;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        const dx = ex - cx, dy = ey - cy;
+        const len = Math.sqrt(dx*dx + dy*dy);
+        if (len > 5) {
+            const ux = dx/len, uy = dy/len;
+            ctx.beginPath();
+            ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - ux*8 + uy*4, ey - uy*8 - ux*4);
+            ctx.lineTo(ex - ux*8 - uy*4, ey - uy*8 + ux*4);
+            ctx.closePath();
+            ctx.fillStyle = axis.color;
+            ctx.fill();
+        }
+
+        if (len > 10) {
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = axis.color;
+            ctx.fillText(axis.label, ex + (dx/len)*14, ey + (dy/len)*14);
+        }
+    }
+    ctx.restore();
+}
+
+// Camera gizmo at current pose (model section)
+function drawAxisTrail(canvas, frameIdx, t, poses) {
+    if (!poses) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const w = canvas.width / dpr;
+    const h = canvas.height / dpr;
+
+    ctx.save();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    t = t || 0;
+    const bounds = getTrajectoryBounds(poses);
+    const viewScale = Math.min(w, h) * 0.7 / (bounds.range + 0.001);
+    const canvasCx = w / 2, canvasCy = h / 2;
+
+    // Azimuth/elevation orbital projection
+    const cosA = Math.cos(trailAzimuth), sinA = Math.sin(trailAzimuth);
+    const cosE = Math.cos(trailElevation), sinE = Math.sin(trailElevation);
+
+    function projectWorld(wx, wy, wz) {
+        const lx = wx - bounds.cx, ly = wy - bounds.cy, lz = wz - bounds.cz;
+        const rx = lx * cosA - lz * sinA;
+        const rz = lx * sinA + lz * cosA;
+        const ry = ly;
+        const screenX = rx;
+        const screenY = -(ry * cosE + rz * sinE);
+        return [canvasCx + screenX * viewScale, canvasCy + screenY * viewScale];
+    }
+
+    // Fixed axis length in world space (same for every camera)
+    const axisLen = bounds.range * 0.18;
+
+    // Compute interpolated current position + axes
+    const extA = poses.extrinsics[frameIdx];
+    const fb = Math.min(frameIdx + 1, poses.n_frames - 1);
+    const extB = poses.extrinsics[fb];
+    const curPos = [
+        lerp(getCamPos(extA)[0], getCamPos(extB)[0], t),
+        lerp(getCamPos(extA)[1], getCamPos(extB)[1], t),
+        lerp(getCamPos(extA)[2], getCamPos(extB)[2], t),
+    ];
+    const curAxes = {
+        x: normalize3([lerp(extA[0][0],extB[0][0],t), lerp(extA[0][1],extB[0][1],t), lerp(extA[0][2],extB[0][2],t)]),
+        y: normalize3([lerp(extA[1][0],extB[1][0],t), lerp(extA[1][1],extB[1][1],t), lerp(extA[1][2],extB[1][2],t)]),
+        z: normalize3([lerp(extA[2][0],extB[2][0],t), lerp(extA[2][1],extB[2][1],t), lerp(extA[2][2],extB[2][2],t)]),
+    };
+
+    // Draw current camera
+    const [ox, oy] = projectWorld(curPos[0], curPos[1], curPos[2]);
+    const curAxisLen = axisLen;
+
+    const curAxArr = [
+        {v: curAxes.x, color: '#e63946', label: 'X'},
+        {v: curAxes.y, color: '#2a9d8f', label: 'Z'},
+        {v: curAxes.z, color: '#457b9d', label: 'Y'},
+    ];
+    curAxArr.sort((a, b) => a.v[2] - b.v[2]);
+
+    for (const axis of curAxArr) {
+        const ep = projectWorld(
+            curPos[0]+axis.v[0]*curAxisLen,
+            curPos[1]+axis.v[1]*curAxisLen,
+            curPos[2]+axis.v[2]*curAxisLen
+        );
+        ctx.beginPath();
+        ctx.moveTo(ox, oy);
+        ctx.lineTo(ep[0], ep[1]);
+        ctx.strokeStyle = axis.color;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        const dx = ep[0] - ox, dy = ep[1] - oy;
+        const len = Math.sqrt(dx*dx + dy*dy);
+        if (len > 5) {
+            const ux = dx/len, uy = dy/len;
+            ctx.beginPath();
+            ctx.moveTo(ep[0], ep[1]);
+            ctx.lineTo(ep[0] - ux*8 + uy*4, ep[1] - uy*8 - ux*4);
+            ctx.lineTo(ep[0] - ux*8 - uy*4, ep[1] - uy*8 + ux*4);
+            ctx.closePath();
+            ctx.fillStyle = axis.color;
+            ctx.fill();
+        }
+
+        if (len > 10) {
+            ctx.font = 'bold 10px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = axis.color;
+            ctx.fillText(axis.label, ep[0] + (dx/len)*12, ep[1] + (dy/len)*12);
+        }
+    }
+
+    // Current position dot
+    ctx.beginPath();
+    ctx.arc(ox, oy, 3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fill();
+
+    ctx.restore();
+}
+
+
 // ---------- Lazy-load videos (play when scrolled into view) ----------
 
 function initLazyVideos() {
@@ -816,5 +1218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOddityDemo();
     initCharts();
     initAttentionViz();
+    initSensorySignals();
+    initModelSignals();
     if (typeof initCameraViz === 'function') initCameraViz();
 });

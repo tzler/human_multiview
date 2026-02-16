@@ -355,7 +355,54 @@ p + p {
     box-shadow: 0 1px 6px rgba(0,0,0,0.08);
 }
 
-/* ---------- Headcam (Section 4) ---------- */
+/* ---------- Sensory Signals (3-column: video, depth, motion) ---------- */
+.sensory-signals {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem auto;
+    max-width: 900px;
+}
+
+.sensory-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sensory-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sensory-source {
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+.sensory-media {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: block;
+    background: var(--bg);
+}
+
+@media (max-width: 640px) {
+    .sensory-signals {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
+}
+
+/* ---------- Headcam (legacy) ---------- */
 .headcam-container {
     margin: 2rem 0;
     text-align: center;
