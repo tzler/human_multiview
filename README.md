@@ -1,10 +1,27 @@
-# Human-level 3D shape perception emerges from multi-view learning
+<div align="center">
+<h1>Human-level 3D shape perception emerges from multi-view learning</h1>
 
-Code and analysis pipeline for [Bonnen, Malik, & Kanazawa (2025)](https://arxiv.org/).
+<a href="https://tzler.github.io/human_multiview/"><img src="https://img.shields.io/badge/Project_Page-green" alt="Project Page"></a>
+<a href="https://huggingface.co/datasets/tzler/MOCHI"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-MOCHI-blue" alt="Dataset"></a>
+<a href="https://github.com/tzler/human_multiview"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
 
-We evaluate multi-view vision transformers (VGGT, DUST3R, MAST3R, Pi3) and a single-image baseline (DINOv2) on the [MOCHI](https://huggingface.co/datasets/tzler/MOCHI) 3D perception benchmark alongside human behavioral data.
+**[UC Berkeley](https://www.berkeley.edu/)**
 
-## Setup
+[Tyler Bonnen](https://scholar.google.com/citations?user=BDoWkQEAAAAJ), [Jitendra Malik](https://people.eecs.berkeley.edu/~malik/), [Angjoo Kanazawa](https://people.eecs.berkeley.edu/~kanazawa/)
+
+</div>
+
+<p align="center">
+  <img src="https://tzler.github.io/human_multiview/static/media/fig3_results.png" width="80%" alt="Main results">
+</p>
+
+## Overview
+
+We evaluate whether multi-view vision transformers develop human-like 3D shape perception as an emergent property of learning to reconstruct scenes. Using the [MOCHI](https://huggingface.co/datasets/tzler/MOCHI) oddity benchmark, we find that [VGGT](https://github.com/facebookresearch/vggt) achieves human-level accuracy (79% vs. 78%) in a zero-shot evaluation — with no task-specific training.
+
+This repository provides the complete analysis pipeline: evaluate all models, reproduce all manuscript figures, and explore cross-image attention patterns.
+
+## Quick Start
 
 ```bash
 # Clone with submodules
@@ -23,23 +40,18 @@ pip install -e .
 
 The repo is a complete pipeline: **scripts generate data, notebooks visualize data**.
 
-### 1. Run model evaluation
+### 1. Run model evaluations
 
 ```bash
-# Run all models on all MOCHI trials (~2000 trials)
+# All models on all MOCHI trials
 python scripts/run_evaluation.py --gpu_id 0
 
-# Run specific models
+# Specific models
 python scripts/run_evaluation.py --models vggt dinov2 --gpu_id 0
 
 # Quick test (10 trials)
 python scripts/run_evaluation.py --models vggt --n_trials 10 --gpu_id 0
 ```
-
-This produces CSVs in `results/`:
-- `all_models_confidence.csv` — per-trial confidence-based accuracy for all multi-view models
-- `dinov2_similarity.csv` — per-trial DINOv2 cosine similarity accuracy
-- `vggt_layer_analysis.csv` — per-trial layer-wise accuracy + solution layers
 
 ### 2. Extract attention data (optional, for Fig 4)
 
@@ -49,15 +61,26 @@ python scripts/run_attention.py --gpu_id 0
 
 ### 3. Generate figures
 
-Open the notebooks to reproduce all manuscript figures:
-
 | Notebook | Figures | GPU required |
 |----------|---------|:---:|
 | `notebooks/01_main_results.ipynb` | Fig 3, S1–S6 | No |
 | `notebooks/02_layer_analysis.ipynb` | Fig 2 (bottom), S7 | Yes (for Fig 2) |
 | `notebooks/03_attention_visualization.ipynb` | Fig 4, S8, S9 | Yes |
 
-## Project structure
+## Models
+
+| Model | Type | Evaluation metric |
+|-------|------|-------------------|
+| [VGGT-1B](https://github.com/facebookresearch/vggt) | Multi-view | Depth confidence |
+| [DUST3R](https://github.com/naver/dust3r) | Multi-view | Depth confidence |
+| [MAST3R](https://github.com/naver/mast3r) | Multi-view | Descriptor confidence |
+| [Pi3](https://github.com/jjordanoc/Pi3) | Multi-view | Depth confidence |
+| DINOv2-Large | Single-image | Cosine similarity |
+
+All models are evaluated zero-shot using a pairwise encoding strategy: for each trial, we encode all image pairs, extract confidence/similarity scores, and predict the oddity as the image with the lowest mean pairwise score.
+
+<details>
+<summary>Project structure</summary>
 
 ```
 human_multiview/          Python package
@@ -90,17 +113,7 @@ repos/                    Model repos (git submodules)
 └── pi3/
 ```
 
-## Models
-
-| Model | Type | Evaluation metric |
-|-------|------|-------------------|
-| [VGGT-1B](https://github.com/facebookresearch/vggt) | Multi-view | Depth confidence |
-| [DUST3R](https://github.com/naver/dust3r) | Multi-view | Depth confidence |
-| [MAST3R](https://github.com/naver/mast3r) | Multi-view | Descriptor confidence |
-| [Pi3](https://github.com/jjordanoc/Pi3) | Multi-view | Depth confidence |
-| DINOv2-Large | Single-image | Cosine similarity |
-
-All models are evaluated zero-shot using a pairwise encoding strategy: for each trial, we encode all image pairs, extract confidence/similarity scores, and predict the oddity as the image with the lowest mean pairwise score.
+</details>
 
 ## Citation
 
