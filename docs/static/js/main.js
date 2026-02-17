@@ -401,7 +401,7 @@ const PLASMA = [
     [240,249,33]
 ];
 
-const POINT_COLORS = ['#e63946', '#457b9d', '#2a9d8f'];
+const POINT_COLORS = ['#E69F00', '#56B4E9', '#009E73'];  // Wong (2011) colorblind-safe: orange, sky blue, bluish green
 
 let attnManifest = [];
 let attnData = {};       // { trialId: Uint8Array }
@@ -452,6 +452,8 @@ async function initAttentionViz() {
     // Mask toggle
     const maskToggle = document.getElementById('attn-mask-toggle');
     if (maskToggle) {
+        maskToggle.checked = false;
+        attnMaskEnabled = false;
         maskToggle.addEventListener('change', () => {
             attnMaskEnabled = maskToggle.checked;
             renderAttnHeatmaps();
@@ -532,6 +534,14 @@ function buildAttnColumns(trial) {
         matchCanvas.id = `attn-match-${p}`;
         matchCanvas.className = 'attn-heatmap-canvas';
         col.appendChild(matchCanvas);
+
+        // Invisible spacer to align with "B (oddity)" header in ref column
+        const spacer = document.createElement('div');
+        spacer.className = 'attn-col-header';
+        spacer.style.marginTop = '0.5rem';
+        spacer.style.visibility = 'hidden';
+        spacer.innerHTML = '&nbsp;';
+        col.appendChild(spacer);
 
         // Nonmatch canvas (B)
         const nonmatchCanvas = document.createElement('canvas');

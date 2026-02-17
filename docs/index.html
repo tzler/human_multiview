@@ -1,10 +1,21 @@
-<!DOCTYPE html>
+<!-- ============================================================ 
+ - add citations for nativists + empiricists
+ - align attention maps
+ - fill in for 
+    - headcam data: outline what's actually in the headcam data plot
+    - new class of models
+    - zero shot framework 
+    - main results
+    - attention
+- clean up closer formatting (make pretty)
+     ============================================================ -->
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human-level 3D shape perception emerges from multi-view learning</title>
-    <link rel="stylesheet" href="static/css/style.css?v=33">
+    <link rel="stylesheet" href="static/css/style.css?v=35">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
@@ -56,17 +67,17 @@
     <div class="container">
         <h2>Let's begin with a simple test from the cognitive sciences</h2>
         <p class="section-subtitle">
-            To understand human perceptual processes, the cognitive sciences have developed incisive tests of human abilities. 
+            The cognitive sciences have developed incisive tests of human 3D perception. 
             This is a good one: Can you identify which of these images contains an object that is different from the other two? 
-            Each row shows three images. Two depict the same object from different
-            viewpoints; one depicts a different object. Click the odd one out.
+            Two images depict the same object from different viewpoints; one depicts a different object.
+            Take a moment and click the 'oddity' when you think you've got it.
         </p>
 
         <div class="condition-tabs" id="condition-tabs">
             <button class="condition-tab active" data-trial="0">Abstract shapes</button>
-            <button class="condition-tab" data-trial="1">Familiar objects</button>
-            <button class="condition-tab" data-trial="2">Novel objects</button>
-            <button class="condition-tab" data-trial="3">Familiar objects (hard)</button>
+            <button class="condition-tab" data-trial="1">Familiar Objects (synthetic)</button>
+            <button class="condition-tab" data-trial="2">Abstract Categories</button>
+            <button class="condition-tab" data-trial="3">Familiar objects (real)</button>
         </div>
 
         <div id="demo-trial" class="oddity-grid">
@@ -79,9 +90,12 @@
         </div>
 
         <p class="section-note">
-            These trials come from the <a href="https://huggingface.co/datasets/tzler/MOCHI">MOCHI benchmark</a>&mdash;a
-            large-scale dataset with over 2,000 trials and behavioral data from
-            more than 300 human participants.
+            This task design lets us evaluate 3D perception 
+            using arbitrary objects, which provides a good estimate of our 'zero-shot' visual abilities. 
+            For example, we can parametrically vary the task difficulty 
+            (e.g., increasing between-object similarity, lighting, viewpoints) 
+            in a way that enables us to disentangle 3D shape perception from other visual
+            properties (e.g., texture).    
         </p>
     </div>
 </section>
@@ -93,16 +107,22 @@
     <div class="container narrow">
         <h2>Standard vision models fail at this task</h2>
         <p>
-            These kinds of tasks are no problem for humans, but standard vision models like DINOv2 and CLIP
-            fail to get close to human accuracy on these tasks. Even when we scale up model size. 
+            Humans can reliably infer the underlying 3D structure of objects on experimental stimuli like the ones above.  
+            Regardless of whether we have see these kinds of objects before, 
+            as long as we have enough time to solve these taks, these visual inferences are no problem for humans. 
+            But standard vision models like DINOv2 and CLIP fail to get close to human accuracy on these tasks, 
+            even when we scale up model size. 
             We've observed this failure across a wide range of architectures, training objectives, and datasets. 
-            The breadth of this human-model gap encourages us to consider what kind of learning gives rise to 3D perception in the first place.
+
         </p>
         <div class="figure-single">
-            <img src="static/media/mochi_model_failure.png" alt="Model performance vs. scale on MOCHI benchmark" class="figure-img figure-img-medium">
+            <img src="static/media/gap_figure.png" alt="Model performance vs. scale on MOCHI benchmark" class="figure-img figure-img-wide">
             <p class="caption">
-                Scaling up model size improves performance on 3D perception tasks from the cognitive sciences,
-                but even the largest models fall far short of human accuracy (dashed line).
+                Scaling up model size improves performance on 3D perception tasks,
+                but even the largest models fall far short of humans. 
+                These data come from our prior work evaluating Multi-view Object Consistency in Humans and Image Models 
+            <a href="https://tzler.github.io/MOCHI/">(MOCHI)</a>
+            a large-scale dataset using many stimulus types (like the ones above) and behavioral data from hundreds of people.                
             </p>
         </div>
     </div>
@@ -129,6 +149,10 @@
             Under this view, standard models fail because they learn from the wrong data&mdash;static
             images stripped of the spatial structure.
         </p>
+        <p>There is over a century of empirical data related to these theories, 
+            but we lack computational methods to evaluate them; 
+            this requires models that predict human behavior (e.g., accuracy, reaction time) from experimental images. 
+        </p>
     </div>
 </section>
 
@@ -137,7 +161,7 @@
 <!-- ============================================================ -->
 <section id="learning-data" class="section">
     <div class="container narrow">
-        <h2>What if we just need grounded visual data?</h2>
+        <h2>What <em>kind</em> of sensory data do we learn from?</h2>
         <p>
             As infants, we don&rsquo;t learn about objects from isolated snapshots.
             We explore&mdash;crawling, reaching, turning our heads&mdash;and
@@ -199,7 +223,7 @@
             </div>
             <div class="sensory-col">
                 <div class="sensory-label">Predicted depth</div>
-                <video id="model-depth" loop muted playsinline preload="auto" class="sensory-media">
+                <video id="model-depth" loop muted playsinline preload="auto" class="sensory-media" style="filter: grayscale(100%);">
                     <source src="static/media/greenhouse_depth_web.mp4" type="video/mp4">
                 </video>
             </div>
@@ -220,7 +244,7 @@
 <!-- ============================================================ -->
 <section id="evaluation" class="section">
     <div class="container">
-        <h2>We develop a 'zero-shot' evaluation framework for 'multi-view' models</h2>
+        <h2>We develop a zero-shot evaluation framework for 'multi-view' models</h2>
         <p class="section-subtitle">
             We present the same oddity trials to both VGGT and human observers.
             For the model, we leverage its internal uncertainty&mdash;a confidence
@@ -252,28 +276,13 @@
             and <em>how long</em> the underlying computation takes.
         </p>
 
-        <div class="results-triptych">
-            <div class="result-panel">
-                <h3>Accuracy</h3>
-                <div class="chart-container">
-                    <canvas id="chart-accuracy" width="320" height="260"></canvas>
-                </div>
-                <p class="caption">VGGT matches human accuracy (79% vs. 78%) and dramatically outperforms DINOv2 (26%).</p>
-            </div>
-            <div class="result-panel">
-                <h3>Error patterns</h3>
-                <div class="chart-container">
-                    <canvas id="chart-confidence" width="320" height="260"></canvas>
-                </div>
-                <p class="caption">Model confidence predicts human accuracy trial-by-trial (<em>r</em>&nbsp;=&nbsp;0.83, <em>R</em>&sup2;&nbsp;=&nbsp;0.69).</p>
-            </div>
-            <div class="result-panel">
-                <h3>Reaction time</h3>
-                <div class="chart-container">
-                    <canvas id="chart-rt" width="320" height="260"></canvas>
-                </div>
-                <p class="caption">Model solution layer predicts human RT (<em>&rho;</em>&nbsp;=&nbsp;0.80)&mdash;deeper processing corresponds to slower responses.</p>
-            </div>
+        <div class="figure-single">
+            <img src="static/media/main_results.png" alt="VGGT matches human accuracy, predicts error patterns, and correlates with reaction time" class="figure-img" style="max-width: 100%;">
+            <p class="caption">
+                <strong>Left:</strong> VGGT matches human accuracy (79% vs. 78%) and dramatically outperforms DINOv2 (26%).
+                <strong>Center:</strong> Model confidence predicts human accuracy trial-by-trial (<em>r</em>&nbsp;=&nbsp;0.83).
+                <strong>Right:</strong> Model solution layer predicts human RT (<em>&rho;</em>&nbsp;=&nbsp;0.80).
+            </p>
         </div>
 
         <div class="results-summary">
@@ -315,7 +324,7 @@
                 </div>
             </div>
             <label class="attn-toggle">
-                <input type="checkbox" id="attn-mask-toggle"> Object mask
+                <input type="checkbox" id="attn-mask-toggle"> mask object
             </label>
         </div>
 
@@ -452,6 +461,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="static/js/camera_viz.js?v=5"></script>
-<script src="static/js/main.js?v=37"></script>
+<script src="static/js/main.js?v=39"></script>
 </body>
 </html>
