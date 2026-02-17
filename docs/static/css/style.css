@@ -278,7 +278,7 @@ p + p {
 }
 
 .figure-single .figure-img-wide {
-    max-width: 600px;
+    max-width: min(600px, 100%);
 }
 
 .figure-img {
@@ -830,6 +830,26 @@ footer h2 {
     color: var(--text-secondary);
 }
 
+.references {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding-left: 1.5rem;
+}
+
+.references li {
+    margin-bottom: 0.4rem;
+}
+
+.references li a {
+    font-size: 0.75rem;
+}
+
+sup a {
+    text-decoration: none;
+    font-size: 0.65rem;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
     html { font-size: 16px; }
@@ -842,4 +862,17 @@ footer h2 {
     .oddity-card { width: 200px; }
     .attention-viz { flex-direction: column; }
     .attn-reference canvas { width: 160px; height: 160px; }
+
+    /* Attention viz: horizontal scroll on mobile */
+    .attn-grid {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+    }
+
+    .figure-single .figure-img,
+    .figure-single .figure-img-medium,
+    .figure-single .figure-img-wide {
+        max-width: 100%;
+    }
 }

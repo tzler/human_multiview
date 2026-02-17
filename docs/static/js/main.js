@@ -1221,9 +1221,77 @@ function initLazyVideos() {
 }
 
 
+// ---------- Auto-number citations ----------
+
+function initCitations() {
+    const cites = document.querySelectorAll('sup.cite');
+    if (!cites.length) return;
+
+    // Pass 1: assign numbers in order of first appearance
+    const refToNum = {};
+    let counter = 1;
+    cites.forEach(sup => {
+        const refs = sup.dataset.ref.split(',');
+        refs.forEach(ref => {
+            if (!refToNum[ref]) refToNum[ref] = counter++;
+        });
+    });
+
+    // Pass 2: populate inline citation links (collapse consecutive nums into ranges)
+    cites.forEach(sup => {
+        const refs = sup.dataset.ref.split(',');
+        const nums = refs.map(ref => ({ ref, num: refToNum[ref] }));
+        nums.sort((a, b) => a.num - b.num);
+
+        // Group into consecutive runs
+        const groups = [];
+        let run = [nums[0]];
+        for (let i = 1; i < nums.length; i++) {
+            if (nums[i].num === run[run.length - 1].num + 1) {
+                run.push(nums[i]);
+            } else {
+                groups.push(run);
+                run = [nums[i]];
+            }
+        }
+        groups.push(run);
+
+        sup.innerHTML = groups.map(run => {
+            const first = run[0], last = run[run.length - 1];
+            if (run.length === 1) {
+                return `<a href="#ref-${first.ref}">${first.num}</a>`;
+            } else if (run.length === 2) {
+                return `<a href="#ref-${first.ref}">${first.num}</a>,<a href="#ref-${last.ref}">${last.num}</a>`;
+            } else {
+                return `<a href="#ref-${first.ref}">${first.num}</a>–<a href="#ref-${last.ref}">${last.num}</a>`;
+            }
+        }).join(',');
+    });
+
+    // Pass 3: number and reorder the reference list
+    const list = document.getElementById('references-list');
+    if (!list) return;
+    const items = {};
+    list.querySelectorAll('li[data-ref-id]').forEach(li => {
+        items[li.dataset.refId] = li;
+    });
+    list.innerHTML = '';
+    Object.entries(refToNum)
+        .sort((a, b) => a[1] - b[1])
+        .forEach(([ref, num]) => {
+            const li = items[ref];
+            if (li) {
+                li.id = `ref-${ref}`;
+                li.setAttribute('value', num);
+                list.appendChild(li);
+            }
+        });
+}
+
 // ---------- Boot ----------
 
 document.addEventListener('DOMContentLoaded', () => {
+    initCitations();
     initLazyVideos();
     initOddityDemo();
     initCharts();
