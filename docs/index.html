@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human-level 3D shape perception emerges from multi-view learning</title>
-    <link rel="stylesheet" href="static/css/style.css?v=37">
+    <link rel="stylesheet" href="static/css/style.css?v=38">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 </head>
@@ -116,7 +116,7 @@
                 Scaling up model size improves performance on 3D perception tasks,
                 but even the largest models fall far short of humans. 
                 These data come from our prior work on Multi-view Object Consistency in Humans and Image models
-            (MOCHI),<sup class="cite" data-ref="bonnen2024mochi"></sup>
+            (<a href="#ref-bonnen2024mochi">MOCHI</a>),
             a large-scale dataset using many stimulus types (like the ones above) and behavioral data from hundreds of people.                
             </p>
         </div>
@@ -229,7 +229,7 @@
             </div>
             <div class="sensory-col">
                 <div class="sensory-label">Predicted depth</div>
-                <video id="model-depth" loop muted playsinline preload="auto" class="sensory-media" style="filter: grayscale(100%);">
+                <video id="model-depth" loop muted playsinline preload="auto" class="sensory-media"><!-- style="filter: grayscale(100%);">-->
                     <source src="static/media/greenhouse_depth_web.mp4" type="video/mp4">
                 </video>
             </div>
