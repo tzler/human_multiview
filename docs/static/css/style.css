@@ -96,6 +96,17 @@ a:hover { text-decoration: underline; }
     justify-content: center;
 }
 
+.tldr {
+    margin-top: 1.2rem;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .btn {
     display: inline-block;
     padding: 0.5rem 1.4rem;

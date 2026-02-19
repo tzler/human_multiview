@@ -33,6 +33,7 @@
             <a href="https://github.com/tzler/human_multiview" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a>
             <a href="#" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 2C4.01 2 2 4.01 2 6.5S4.01 11 6.5 11 11 8.99 11 6.5 8.99 2 6.5 2zm0 7C5.12 9 4 7.88 4 6.5S5.12 4 6.5 4 9 5.12 9 6.5 7.88 9 6.5 9zm11-7C15.01 2 13 4.01 13 6.5s2.01 4.5 4.5 4.5S22 8.99 22 6.5 19.99 2 17.5 2zm0 7C16.12 9 15 7.88 15 6.5S16.12 4 17.5 4 20 5.12 20 6.5 19.88 9 17.5 9zM12 13c-2.49 0-4.5 2.01-4.5 4.5S9.51 22 12 22s4.5-2.01 4.5-4.5S14.49 13 12 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5S10.62 15 12 15s2.5 1.12 2.5 2.5S13.38 20 12 20z"/></svg>Data</a>
         </div>
+        <p class="tldr"><br><strong>tl;dr:</strong> Neural networks trained on multi-view sensory data <br>are the first to match human-level 3D shape inferences</p>
     </div>
 </header>
 
@@ -62,10 +63,10 @@
     <div class="container">
         <h2>Let's begin with a simple test from the cognitive sciences</h2>
         <p class="section-subtitle">
-            The cognitive sciences have developed incisive tests of human 3D perception. 
-            This is a good one: Can you identify which of these images contains an object that is different from the other two? 
-            Two images depict the same object from different viewpoints; one depicts a different object.
-            Take a moment and click the 'oddity' when you think you've got it.
+            To understand 3D perception the cognitive sciences have developed incisive tests. 
+            This is a good one: In the example trials below, two images depict the same object from different viewpoints, while one depicts a different object.
+            Can you identify which is the different object? 
+            Take a moment to decide, then click the 'oddity' when you think you've got it.
         </p>
 
         <div class="condition-tabs" id="condition-tabs">
@@ -102,13 +103,14 @@
     <div class="container narrow">
         <h2>Standard vision models fail at this task</h2>
         <p>
-            Humans can reliably infer the 3D structure of objects like the ones above.
-            While these tasks might not be easy, especially for out-of-distributions objects, 
-            we&rsquo;re stillable to perform well. 
-            But standard vision models like DINOv2 and CLIP fail to get close to human accuracy on these tasks,
+            Humans can reliably infer the 3D structure of objects like the ones above,
+            but standard vision models (e.g., DINOv2, CLIP) fail on these tasks,
             even when we scale up model size.<sup class="cite" data-ref="bonnen2024mochi"></sup>
             We&rsquo;ve observed this failure across a wide range of architectures, training objectives, and datasets.
-            <sup class="cite" data-ref="oconnell2025,alcorn2019,ollikka2025,bonnen2024ccn,bowers2023"></sup> 
+            <sup class="cite" data-ref="oconnell2025,alcorn2019,ollikka2025,bonnen2024ccn,bowers2023"></sup>. 
+            Understanding model failure is not just an engineering problem, but a question with 
+            considerable implication for the cognitive sciences.  
+
         </p>
         <div class="figure-single">
             <img src="static/media/gap_figure.png" alt="Model performance vs. scale on MOCHI benchmark" class="figure-img figure-img-wide">
@@ -141,12 +143,11 @@
         <p>
             <strong>Empiricists</strong> argue that 3D perception emerges from
             general-purpose learning over natural sensory experience.<sup class="cite" data-ref="helmholtz1867"></sup>
-            Under this view, standard models fail because they learn from the wrong data&mdash;static
-            images stripped of the spatial structure.<sup class="cite" data-ref="smith2018"></sup>
+            Under this view, models fail because they learn from the wrong <em>kind</em> of data, 
+            which doesn't reflect natural visual experience.<sup class="cite" data-ref="smith2018"></sup>
         </p>
         <p>There is over a century of empirical data related to these theories, 
-            but we lack computational methods to evaluate them; 
-            this requires models that predict human behavior (e.g., accuracy, reaction time) from experimental images. 
+            but we lack computational methods to evaluate them. 
         </p>
     </div>
 </section>
@@ -158,15 +159,16 @@
     <div class="container narrow">
         <h2>What <em>kind</em> of sensory data do we learn from?</h2>
         <p>
-            If we hope to build models that embody theories of human perception, 
-            we don't just need to learn from different <em>amounts</em> of data, 
-            but different data <em>types</em>. As infants, we generate structured multi-sensory 
-            sensory experience that unfolds over time as we crawl, reach, and move our bodies. 
-            For example, retinal inputs, binocular depth, and vestibular self-motion signals 
+            As infants, we generate structured multi-sensory 
+            sensory experience that unfolds over time that is inherently sequential.
+            For example, retinal inputs, binocular depth, and self-motion signals 
             might provide powerful self-supervision signals to guide perceptual learning. 
-            There is a rich history in the cognitive science observing the developmental stages
+            There is a rich history in the cognitive sciences characterizing the developmental stages
             associated with these different sensory signals. In recent years, head-mounted cameras 
             have made it possible to capture these sensory data in unprecedented detail.
+            That is, if we hope to build models of huma perception 
+            we don't just need to learn from different <em>amounts</em> of data, 
+            but different data <em>types</em>. 
         </p>
 
         <div class="sensory-signals" id="sensory-signals">
@@ -238,8 +240,10 @@
                 <canvas id="model-motion" class="sensory-media"></canvas>
             </div>
         </div>
-        <p class="caption" style="text-align:center; max-width:640px; margin:0.8rem auto 0;">
-            Given a set of images, VGGT predicts per-frame depth maps and camera poses.
+        <p class="caption" style="text-align:center; margin:0.8rem auto 0;">
+            Given a sequence of images (left), multi-view transformers like VGGT 
+            learn to predict associated spatial information, such as per-frame depth maps (center) and camera poses (right). 
+            These signals are analogous so sensory data available to humans.
         </p>
     </div>
 </section>
