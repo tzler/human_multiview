@@ -3,6 +3,7 @@
 - fix attention masks (eg chair) 
 - change fam hi to classic car example 
 - update human accuracy in demo
+- update mochi plot with abs diff results
      ============================================================ -->
  <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +34,7 @@
             <a href="https://github.com/tzler/human_multiview" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a>
             <a href="#" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 2C4.01 2 2 4.01 2 6.5S4.01 11 6.5 11 11 8.99 11 6.5 8.99 2 6.5 2zm0 7C5.12 9 4 7.88 4 6.5S5.12 4 6.5 4 9 5.12 9 6.5 7.88 9 6.5 9zm11-7C15.01 2 13 4.01 13 6.5s2.01 4.5 4.5 4.5S22 8.99 22 6.5 19.99 2 17.5 2zm0 7C16.12 9 15 7.88 15 6.5S16.12 4 17.5 4 20 5.12 20 6.5 19.88 9 17.5 9zM12 13c-2.49 0-4.5 2.01-4.5 4.5S9.51 22 12 22s4.5-2.01 4.5-4.5S14.49 13 12 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5S10.62 15 12 15s2.5 1.12 2.5 2.5S13.38 20 12 20z"/></svg>Data</a>
         </div>
-        <p class="tldr"><br><strong>tl;dr:</strong> Neural networks trained on multi-view sensory data <br>are the first to match human-level 3D shape inferences</p>
+        <p class="tldr"><br><strong>tl;dr:</strong> neural networks trained on multi-view sensory data <br>are the first to match human-level 3D shape inferences</p>
     </div>
 </header>
 
@@ -51,7 +52,7 @@
             yet decades of computational methods have fallen short of human performance. 
             Here we show that human-level 3D shape inferences emerge naturally when training neural networks using a 
             visual-spatial learning objective over naturalistic sensory data. 
-            These results provide a bridge between cognitive theories and current practice in deep learning, revealing a novel route towards more human-like vision models.
+            These results provide a bridge between cognitive theories and current practice in deep learning, providing a novel route towards more human-like vision models.
         </p>
     </div>
 </section>
@@ -63,7 +64,7 @@
     <div class="container">
         <h2>Let's begin with a simple test from the cognitive sciences</h2>
         <p class="section-subtitle">
-            To understand 3D perception the cognitive sciences have developed incisive tests. 
+            To understand 3D perception, the cognitive sciences have developed incisive tests. 
             This is a good one: In the example trials below, two images depict the same object from different viewpoints, while one depicts a different object.
             Can you identify which is the different object? 
             Take a moment to decide, then click the 'oddity' when you think you've got it.
@@ -71,9 +72,9 @@
 
         <div class="condition-tabs" id="condition-tabs">
             <button class="condition-tab active" data-trial="0">Abstract objects (procedural)</button>
-            <button class="condition-tab" data-trial="1">Familiar Objects (synthetic)</button>
+            <button class="condition-tab" data-trial="1">Familiar objects (synthetic)</button>
             <button class="condition-tab" data-trial="2">Abstract objects (classic)</button>
-            <button class="condition-tab" data-trial="3">Familiar objects (real)</button>
+            <button class="condition-tab" data-trial="3">Familiar objects (photos)</button>
         </div>
 
         <div id="demo-trial" class="oddity-grid">
@@ -107,9 +108,8 @@
             but standard vision models (e.g., DINOv2, CLIP) fail on these tasks,
             even when we scale up model size.<sup class="cite" data-ref="bonnen2024mochi"></sup>
             We&rsquo;ve observed this failure across a wide range of architectures, training objectives, and datasets.
-            <sup class="cite" data-ref="oconnell2025,alcorn2019,ollikka2025,bonnen2024ccn,bowers2023"></sup>. 
-            Understanding model failure is not just an engineering problem, but a question with 
-            considerable implication for the cognitive sciences.  
+            <sup class="cite" data-ref="oconnell2025,alcorn2019,ollikka2025,bonnen2024ccn,bowers2023"></sup> 
+            Understanding model failure has technical and conceptual implications for the cognitive sciences.  
 
         </p>
         <div class="figure-single">
@@ -132,8 +132,7 @@
     <div class="container">
         <h2>Cognitive theories offer competing interpretations of model failure</h2>
         <p>
-            Understanding why existing models fail leads us to competing theories about how humans
-            develop this ability.  
+            There are two cognitive theories of visual development that have different interpretations of why models fail on 3D tasks:      
         </p>
         <p>
             <strong>Nativists</strong> argue that perceiving 3D structure requires
@@ -160,13 +159,13 @@
         <h2>What <em>kind</em> of sensory data do we learn from?</h2>
         <p>
             As infants, we generate structured multi-sensory 
-            sensory experience that unfolds over time that is inherently sequential.
+            experience that unfolds over time that is inherently sequential.
             For example, retinal inputs, binocular depth, and self-motion signals 
             might provide powerful self-supervision signals to guide perceptual learning. 
             There is a rich history in the cognitive sciences characterizing the developmental stages
             associated with these different sensory signals. In recent years, head-mounted cameras 
             have made it possible to capture these sensory data in unprecedented detail.
-            That is, if we hope to build models of huma perception 
+            That is, if we hope to build models of human perception 
             we don't just need to learn from different <em>amounts</em> of data, 
             but different data <em>types</em>. 
         </p>
@@ -273,11 +272,11 @@
         <div class="figure-single">
             <img src="static/media/fig2_protocol.png" alt="Evaluation protocol: encode image pairs, extract pairwise uncertainty, identify the non-matching object as the pair with lowest confidence" class="figure-img" style="max-width:100%;">
             <p class="caption">
-                <strong>Estimating model perfomance</strong> For each trial (left), 
+                <strong>Estimating model performance.</strong> For each trial (left), 
                 we encode all image pairs (center left) and extract the model&rsquo;s uncertainty (center right), 
                 which is a model response used during training.
                 We average over these pairs to determine the non-matching object (right). 
-                We used the the confidence margin (&Delta;) to predict human error patterns, and an independent 'solution layer' analysis to predict human reaction time data.
+                We used the confidence margin (&Delta;) to predict human error patterns, and an independent 'solution layer' analysis to predict human reaction time data.
             </p>
         </div>
     </div>
@@ -472,15 +471,15 @@
   year={2025}
 }</code></pre>
         <div class="footer-links">
-            <a href="https://github.com/tzler/human_multiview">Code &amp; Analysis</a>
-            <a href="https://huggingface.co/datasets/tzler/MOCHI">MOCHI Dataset</a>
+            <a href="https://github.com/tzler/human_multiview">Code and analysis</a>
+            <a href="https://huggingface.co/datasets/tzler/MOCHI">Human behavior and experimental stimuli</a>
         </div>
         <p class="acknowledgments">
             This work is supported by the NIH (Award F99NS125816) and the UC Presidential
             Postdoctoral Fellowship Award.
         </p>
 
-        <h2 style="margin-top:2rem">References</h2>
+        <h2 style="margin-top:2rem">REFERENCES</h2>
         <ol class="references" id="references-list">
             <li data-ref-id="bonnen2025cognition">Bonnen, T., Wagner, A. D. &amp; Yamins, D. L. K. (2025). Medial temporal cortex supports object perception by integrating over visuospatial sequences. <em>Cognition</em>, 262, 106135. <a href="https://doi.org/10.1016/j.cognition.2025.106135">doi</a></li>
             <li data-ref-id="bonnen2024mochi">Bonnen, T., Fu, S., Bai, Y., O&rsquo;Connell, T., Friedman, Y., Kanwisher, N., Tenenbaum, J. B. &amp; Efros, A. A. (2024). Evaluating Multiview Object Consistency in Humans and Image Models. <em>Advances in Neural Information Processing Systems (NeurIPS)</em>. <a href="https://arxiv.org/abs/2409.05862">arXiv</a></li>
@@ -493,7 +492,7 @@
             <li data-ref-id="lake2017">Lake, B. M., Ullman, T. D., Tenenbaum, J. B. &amp; Gershman, S. J. (2017). Building machines that learn and think like people. <em>Behavioral and Brain Sciences</em>, 40, e253. <a href="https://doi.org/10.1017/S0140525X16001837">doi</a></li>
             <li data-ref-id="helmholtz1867">Helmholtz, H. von (1867). <em>Handbuch der physiologischen Optik</em>. Leipzig: Leopold Voss.</li>
             <li data-ref-id="smith2018">Smith, L. B., Jayaraman, S., Clerkin, E. &amp; Yu, C. (2018). The developing infant creates a curriculum for statistical learning. <em>Trends in Cognitive Sciences</em>, 22(4), 325&ndash;336. <a href="https://doi.org/10.1016/j.tics.2018.01.004">doi</a></li>
-            <li data-ref-id="long2023">Long, B., Goodin, S., Kachergis, G., Marchman, V. A., Radwan, S. F., Sparks, R. Z., Xiang, V., Zhuang, C., Hsu, O., Newman, B., Yamins, D. L. K. &amp; Frank, M. C. (2023). The BabyView camera: Designing a new head-mounted camera to capture children&rsquo;s early social and visual environments. <em>Behavior Research Methods</em>, 56(4), 3523&ndash;3534. <a href="https://doi.org/10.3758/s13428-023-02206-1">doi</a></li>
+            <li data-ref-id="long2023">Long, B., Sparks, R. Z., Xiang, V., Stojanov, S., Yin, Z., Keene, G. E., Tan, A. W. M., Feng, S. Y., Zhuang, C., Marchman, V. A. et al. (2024). The BabyView dataset: High-resolution egocentric videos of infants&rsquo; and young children&rsquo;s everyday experiences. <em>arXiv:2406.10447</em>. <a href="https://arxiv.org/abs/2406.10447">arXiv</a></li>
             <li data-ref-id="sullivan2021">Sullivan, J., Mei, M., Perfors, A., Wojcik, E. &amp; Frank, M. C. (2021). SAYCam: A large, longitudinal audiovisual dataset recorded from the infant&rsquo;s perspective. <em>Open Mind</em>, 5, 20&ndash;29. <a href="https://doi.org/10.1162/opmi_a_00039">doi</a></li>
             <li data-ref-id="dust3r">Wang, S., Leroy, V., Cabon, Y., Chidlovskii, B. &amp; Revaud, J. (2024). DUSt3R: Geometric 3D Vision Made Easy. <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</em>, 20697&ndash;20709.</li>
             <li data-ref-id="mast3r">Leroy, V., Cabon, Y. &amp; Revaud, J. (2024). Grounding Image Matching in 3D with MASt3R. <em>European Conference on Computer Vision (ECCV)</em>.</li>
