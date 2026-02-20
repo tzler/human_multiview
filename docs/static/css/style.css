@@ -292,6 +292,10 @@ p + p {
     max-width: min(600px, 100%);
 }
 
+.figure-single .figure-img-full {
+    max-width: 100%;
+}
+
 .figure-img {
     max-width: 100%;
     height: auto;
@@ -537,6 +541,41 @@ p + p {
     max-width: 800px;
     margin: 0 auto;
     min-height: 200px;
+}
+
+/* ---------- Results panel highlight (Section 5) ---------- */
+.results-panels {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.panel-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0);
+    transition: background 0.25s ease;
+    pointer-events: auto;
+    cursor: default;
+}
+
+.panel-overlay[data-panel="left"]   { left: 0;      width: 33.3%; }
+.panel-overlay[data-panel="center"] { left: 33.3%;   width: 33.4%; }
+.panel-overlay[data-panel="right"]  { left: 66.7%;   width: 33.3%; }
+
+.results-panels.has-highlight .panel-overlay.dimmed {
+    background: rgba(247, 245, 242, 0.7);
+}
+
+.panel-link {
+    transition: color 0.25s ease;
+    cursor: default;
+    border-radius: 3px;
+}
+
+.panel-link.highlight {
+    color: var(--accent);
 }
 
 /* ---------- Evaluation steps (Section 6) ---------- */

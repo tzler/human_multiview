@@ -30,13 +30,13 @@
         </p>
         <p class="affiliation">University of California, Berkeley</p>
         <div class="hero-links">
-            <a href="#" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>Paper</a>
+            <a href="https://arxiv.org/abs/2602.17650" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>Paper</a>
             <a href="https://github.com/tzler/human_multiview" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a>
-            <a href="#" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 2C4.01 2 2 4.01 2 6.5S4.01 11 6.5 11 11 8.99 11 6.5 8.99 2 6.5 2zm0 7C5.12 9 4 7.88 4 6.5S5.12 4 6.5 4 9 5.12 9 6.5 7.88 9 6.5 9zm11-7C15.01 2 13 4.01 13 6.5s2.01 4.5 4.5 4.5S22 8.99 22 6.5 19.99 2 17.5 2zm0 7C16.12 9 15 7.88 15 6.5S16.12 4 17.5 4 20 5.12 20 6.5 19.88 9 17.5 9zM12 13c-2.49 0-4.5 2.01-4.5 4.5S9.51 22 12 22s4.5-2.01 4.5-4.5S14.49 13 12 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5S10.62 15 12 15s2.5 1.12 2.5 2.5S13.38 20 12 20z"/></svg>Data</a>
+            <a href="https://huggingface.co/datasets/tzler/MOCHI" class="btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 2C4.01 2 2 4.01 2 6.5S4.01 11 6.5 11 11 8.99 11 6.5 8.99 2 6.5 2zm0 7C5.12 9 4 7.88 4 6.5S5.12 4 6.5 4 9 5.12 9 6.5 7.88 9 6.5 9zm11-7C15.01 2 13 4.01 13 6.5s2.01 4.5 4.5 4.5S22 8.99 22 6.5 19.99 2 17.5 2zm0 7C16.12 9 15 7.88 15 6.5S16.12 4 17.5 4 20 5.12 20 6.5 19.88 9 17.5 9zM12 13c-2.49 0-4.5 2.01-4.5 4.5S9.51 22 12 22s4.5-2.01 4.5-4.5S14.49 13 12 13zm0 7c-1.38 0-2.5-1.12-2.5-2.5S10.62 15 12 15s2.5 1.12 2.5 2.5S13.38 20 12 20z"/></svg>Data</a>
         </div>
         <p class="tldr"><br><strong>tl;dr:</strong> neural networks trained on multi-view sensory data <br>are the first to match human-level 3D shape inferences</p>
     </div>
-</header>
+</header>1
 
 <!-- ============================================================ -->
 <!-- INTRO -->
@@ -259,18 +259,12 @@
             and extract the model&rsquo;s internal confidence estimate 
             (a measure of uncertainty used during training). 
             We average across these pairs and determine the model-selected 'oddity' 
-            as the image with the lowest average pairwise confidence, then compare to ground truth. 
-            Next, we predict human error patterns using the gap between the
-            lowest- and second-lowest-scoring images (the confidence margin, &Delta;). 
-            
-            Lastly, we can estimate model performance at every layer by using a very simple correlation-based 
-            analysis. This can be used to compute when the model arrives at the correct answer&mdash;its 
-            solution layer&mdash;and correlate this with human reaction times. 
+            as the image with the lowest average pairwise confidence, then compare to ground truth.             
             This gives us trial-level behavioral readouts with no fine-tuning, no task-specific
             training.  
         </p>
         <div class="figure-single">
-            <img src="static/media/fig2_protocol.png" alt="Evaluation protocol: encode image pairs, extract pairwise uncertainty, identify the non-matching object as the pair with lowest confidence" class="figure-img" style="max-width:100%;">
+            <img src="static/media/fig2_protocol.png" alt="Evaluation protocol: encode image pairs, extract pairwise uncertainty, identify the non-matching object as the pair with lowest confidence" class="figure-img figure-img-full">
             <p class="caption">
                 <strong>Estimating model performance.</strong> For each trial (left), 
                 we encode all image pairs (center left) and extract the model&rsquo;s uncertainty (center right), 
@@ -289,26 +283,30 @@
     <div class="container">
         <h2>There is an emergent alignment between model and human perception</h2>
         <p>
-            These multi-view transformers are the first to match human performance on 3D shape inferences.               
-            Specifically, VGGT exhibits a striking alignment with human behavior: 
-            VGGT matches human-level accuracy, 
-            while a strong vision baseline trained only on static images (DINOv2) lags far behind (left);
-            VGGT&rsquo;s confidence margin predicts human error patterns
-            trial-by-trial, such that trials where the model is uncertain
-            are the same trials where humans make mistakes (center); 
-            VGGT&rsquo;s solution layer predicts human reaction time, such that 
-            trials resolved in early layers correspond to
-            fast responses, while trials requiring deeper processing correspond to slower ones.
+            These multi-view transformers are the first vision models match human performance on 3D shape inferences.
+            <span class="panel-link" data-panel="left">Using the zero-shot evaluation approach outlined above, we find that VGGT matches human-level accuracy,
+            while large vision models trained only on static images lag far behind (left).</span>
+            Given this correspondence, we develop a series of independent model readouts to probe the
+            granularity of human-model alignment. <span class="panel-link" data-panel="center">We find that human error patterns are predicted by
+            the confidence margin (center)</span>, and <span class="panel-link" data-panel="right">human reaction time is correlated with
+            the amount of compute (evident in its
+            'solution layer') the model requires to arrive at the correct answer (right)</span>.
             Critically, this human-model correspondence emerges from
             multi-view learning alone, without training on any experimental behavior or images. 
         </p>
 
         <div class="figure-single">
-            <img src="static/media/main_results.png" alt="VGGT matches human accuracy, predicts error patterns, and correlates with reaction time" class="figure-img" style="max-width: 100%;">
+            <div class="results-panels">
+                <img src="static/media/main_results.png" alt="VGGT matches human accuracy, predicts error patterns, and correlates with reaction time" class="figure-img" style="max-width: 100%;">
+                <div class="panel-overlay" data-panel="left"></div>
+                <div class="panel-overlay" data-panel="center"></div>
+                <div class="panel-overlay" data-panel="right"></div>
+            </div>
             <p class="caption">
-                <strong>Left:</strong> VGGT matches human accuracy (79% vs. 78%) and dramatically outperforms DINOv2 (26%).
-                <strong>Center:</strong> Model confidence predicts human accuracy trial-by-trial (<em>r</em>&nbsp;=&nbsp;0.83).
-                <strong>Right:</strong> Model solution layer predicts human RT (<em>&rho;</em>&nbsp;=&nbsp;0.80).
+                <strong class="panel-link" data-panel="left">Left:</strong> VGGT matches human accuracy (79% vs. 78%) and dramatically outperforms DINOv2 (26%).
+                <strong class="panel-link" data-panel="center">Center:</strong> Model confidence predicts human accuracy trial-by-trial (<em>r</em>&nbsp;=&nbsp;0.83).
+                <strong class="panel-link" data-panel="right">Right:</strong> Model solution layer predicts human RT (<em>&rho;</em>&nbsp;=&nbsp;0.80).
+                Hover to highlight.
             </p>
         </div>
     </div>
@@ -472,7 +470,7 @@
 }</code></pre>
         <div class="footer-links">
             <a href="https://github.com/tzler/human_multiview">Code and analysis</a>
-            <a href="https://huggingface.co/datasets/tzler/MOCHI">Human behavior and experimental stimuli</a>
+            <a href="https://huggingface.co/datasets/tzler/MOCHI">Human experimental data</a>
         </div>
         <p class="acknowledgments">
             This work is supported by the NIH (Award F99NS125816) and the UC Presidential
@@ -506,6 +504,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="static/js/camera_viz.js?v=5"></script>
-<script src="static/js/main.js?v=41"></script>
+<script src="static/js/main.js?v=42"></script>
 </body>
 </html>

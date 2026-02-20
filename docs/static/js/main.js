@@ -1288,6 +1288,44 @@ function initCitations() {
         });
 }
 
+// ---------- Results panel highlight ----------
+
+function initResultsHighlight() {
+    const container = document.querySelector('.results-panels');
+    if (!container) return;
+
+    const overlays = container.querySelectorAll('.panel-overlay');
+    const links = document.querySelectorAll('.panel-link');
+
+    function highlight(panel) {
+        container.classList.add('has-highlight');
+        overlays.forEach(o => {
+            o.classList.toggle('dimmed', o.dataset.panel !== panel);
+        });
+        links.forEach(l => {
+            l.classList.toggle('highlight', l.dataset.panel === panel);
+        });
+    }
+
+    function clear() {
+        container.classList.remove('has-highlight');
+        overlays.forEach(o => o.classList.remove('dimmed'));
+        links.forEach(l => l.classList.remove('highlight'));
+    }
+
+    // Text hover -> highlight panel
+    links.forEach(l => {
+        l.addEventListener('mouseenter', () => highlight(l.dataset.panel));
+        l.addEventListener('mouseleave', clear);
+    });
+
+    // Panel overlay hover -> highlight text
+    overlays.forEach(o => {
+        o.addEventListener('mouseenter', () => highlight(o.dataset.panel));
+        o.addEventListener('mouseleave', clear);
+    });
+}
+
 // ---------- Boot ----------
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1298,5 +1336,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initAttentionViz();
     initSensorySignals();
     initModelSignals();
+    initResultsHighlight();
     if (typeof initCameraViz === 'function') initCameraViz();
 });
