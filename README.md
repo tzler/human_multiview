@@ -6,8 +6,6 @@
 <a href="https://github.com/tzler/human_multiview"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
 <a href="https://arxiv.org/abs/2602.17650"><img src="https://img.shields.io/badge/arXiv-2602.17650-b31b1b" alt="arXiv"></a>
 
-arXiv-2503.11651-b31b1b
-
 
 [Tyler Bonnen](https://tzler.github.io/), [Jitendra Malik](https://people.eecs.berkeley.edu/~malik/), [Angjoo Kanazawa](https://people.eecs.berkeley.edu/~kanazawa/)
 
@@ -126,10 +124,11 @@ repos/                    Model repos (git submodules)
 ## Citation
 
 ```bibtex
-@article{bonnen2025human,
-  title={Human-level 3D shape perception emerges from multi-view learning},
-  author={Bonnen, Tyler and Malik, Jitendra and Kanazawa, Angjoo},
-  year={2025}
+@misc{bonnen2026human,
+      title={Human-level 3D shape perception emerges from multi-view learning}, 
+      author={Tyler Bonnen and Jitendra Malik and Angjoo Kanazawa},
+      year={2026},
+      url={https://arxiv.org/abs/2602.17650}, 
 }
 ```
 
