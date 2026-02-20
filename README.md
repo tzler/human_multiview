@@ -4,31 +4,35 @@
 <a href="https://tzler.github.io/human_multiview/"><img src="https://img.shields.io/badge/Project_Page-green" alt="Project Page"></a>
 <a href="https://huggingface.co/datasets/tzler/MOCHI"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-MOCHI-blue" alt="Dataset"></a>
 <a href="https://github.com/tzler/human_multiview"><img src="https://img.shields.io/badge/GitHub-Code-black?logo=github" alt="Code"></a>
+<a href="https://arxiv.org/abs/2602.17650"><img src="https://img.shields.io/badge/arXiv-2602.17650-b31b1b" alt="arXiv"></a>
 
-**[UC Berkeley](https://www.berkeley.edu/)**
+arXiv-2503.11651-b31b1b
 
-[Tyler Bonnen](https://scholar.google.com/citations?user=BDoWkQEAAAAJ), [Jitendra Malik](https://people.eecs.berkeley.edu/~malik/), [Angjoo Kanazawa](https://people.eecs.berkeley.edu/~kanazawa/)
+
+[Tyler Bonnen](https://tzler.github.io/), [Jitendra Malik](https://people.eecs.berkeley.edu/~malik/), [Angjoo Kanazawa](https://people.eecs.berkeley.edu/~kanazawa/)
+
+**UC Berkeley**
 
 </div>
 
 <p align="center">
-  <img src="https://tzler.github.io/human_multiview/static/media/fig3_results.png" width="80%" alt="Main results">
+  <img src="https://tzler.github.io/human_multiview/static/media/main_results.png" width="80%" alt="Main results">
 </p>
 
 ## Overview
 
-We evaluate whether multi-view vision transformers develop human-like 3D shape perception as an emergent property of learning to reconstruct scenes. Using the [MOCHI](https://huggingface.co/datasets/tzler/MOCHI) oddity benchmark, we find that [VGGT](https://github.com/facebookresearch/vggt) achieves human-level accuracy (79% vs. 78%) in a zero-shot evaluation — with no task-specific training.
+We demonstrate that multi-view transformers are the first vision models to match human performance on 3D shape inference tasks. First we develop a zero-shot evaluation framework (i.e., no task-specific training, fine tuning, or linear decoders) to determine the perceptual abilities of these multi-view models, then we evaluate on the [MOCHI](https://huggingface.co/datasets/tzler/MOCHI) benchmark. [VGGT](https://github.com/facebookresearch/vggt) matches human accuracy, error patterns, and reaction times.
 
-This repository provides the complete analysis pipeline: evaluate all models, reproduce all manuscript figures, and explore cross-image attention patterns.
+
+This repository provides the complete analysis pipeline to evaluate models, reproduce results  figures, and explore cross-image attention patterns.
 
 ## Quick Start
 
 ```bash
-# Clone with submodules
+# clone with submodules
 git clone --recursive https://github.com/tzler/human_multiview.git
-cd human_multiview
 
-# Create conda environment
+# move into the repo and reate conda environment
 conda env create -f environment.yml
 conda activate human_multiview
 
@@ -76,8 +80,11 @@ python scripts/run_attention.py --gpu_id 0
 | [MAST3R](https://github.com/naver/mast3r) | Multi-view | Descriptor confidence |
 | [Pi3](https://github.com/jjordanoc/Pi3) | Multi-view | Depth confidence |
 | DINOv2-Large | Single-image | Cosine similarity |
+| VGGT-1B (untrained) | Multi-view | Depth confidence / layer similarity |
 
 All models are evaluated zero-shot using a pairwise encoding strategy: for each trial, we encode all image pairs, extract confidence/similarity scores, and predict the oddity as the image with the lowest mean pairwise score.
+
+An untrained (randomly initialized) VGGT baseline is also available to confirm that performance is attributable to learned representations rather than architecture or input features. It performs at chance on all metrics and layers. See `models/vggt_untrained.py` and run with `--models vggt_untrained --output_dir results/untrained/`.
 
 <details>
 <summary>Project structure</summary>
@@ -92,7 +99,8 @@ human_multiview/          Python package
 │   ├── dust3r.py         DUST3R
 │   ├── mast3r.py         MAST3R
 │   ├── pi3.py            Pi3
-│   └── dinov2.py         DINOv2 baseline
+│   ├── dinov2.py         DINOv2 baseline
+│   └── vggt_untrained.py VGGT-1B (random init)
 ├── evaluate.py           Oddity prediction, confidence margins, solution layers
 ├── attention.py          Cross-image attention extraction and visualization
 └── plotting.py           Figure styling
