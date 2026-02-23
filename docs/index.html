@@ -1,9 +1,7 @@
 <!-- ============================================================ 
-- clean up closer formatting (make pretty)
 - fix attention masks (eg chair) 
 - change fam hi to classic car example 
 - update human accuracy in demo
-- update mochi plot with abs diff results
      ============================================================ -->
  <!DOCTYPE html>
 <html lang="en">
@@ -50,9 +48,9 @@
         <p>
             Understanding this ability has been a longstanding goal for both the science and engineering of visual intelligence, 
             yet decades of computational methods have fallen short of human performance. 
-            Here we show that human-level 3D shape inferences emerge naturally when training neural networks using a 
-            visual-spatial learning objective over naturalistic sensory data. 
-            These results provide a bridge between cognitive theories and current practice in deep learning, providing a novel route towards more human-like vision models.
+            Here we show that human-level 3D shape inferences emerge in neural networks trained using a 
+            visual-spatial learning objective over large-scale naturalistic sensory data. 
+            These results provide a bridge between cognitive theories and current practice in deep learning, revealing a novel route towards more human-like vision models.
         </p>
     </div>
 </section>
@@ -64,10 +62,10 @@
     <div class="container">
         <h2>Let's begin with a simple test from the cognitive sciences</h2>
         <p class="section-subtitle">
-            To understand 3D perception, the cognitive sciences have developed incisive tests. 
-            This is a good one: In the example trials below, two images depict the same object from different viewpoints, while one depicts a different object.
+            To understand 3D perception, cognitive scientists have developed well-controlled experimental tasks. 
+            For example, in the example trials below, two images depict the same object from different viewpoints, while one depicts a different object.
             Can you identify which is the different object? 
-            Take a moment to decide, then click the 'oddity' when you think you've got it.
+            Take a moment to decide, then click the odd one out. 
         </p>
 
         <div class="condition-tabs" id="condition-tabs">
@@ -104,12 +102,11 @@
     <div class="container narrow">
         <h2>Standard vision models fail at this task</h2>
         <p>
-            Humans can reliably infer the 3D structure of objects like the ones above,
-            but standard vision models (e.g., DINOv2, CLIP) fail on these tasks,
-            even when we scale up model size.<sup class="cite" data-ref="bonnen2024mochi"></sup>
-            We&rsquo;ve observed this failure across a wide range of architectures, training objectives, and datasets.
+            Humans can reliably perform the tasks above, even when they're challenging. 
+            Standard vision models fail, especially when they're challenging <sup class="cite" data-ref="bonnen2024mochi"></sup>
+            We&rsquo;ve observed this failure across a wide range of architectures, model sizes, training objectives, and datasets.
             <sup class="cite" data-ref="oconnell2025,alcorn2019,ollikka2025,bonnen2024ccn,bowers2023"></sup> 
-            Understanding model failure has technical and conceptual implications for the cognitive sciences.  
+            Understanding this failure has both technical and conceptual implications for the cognitive sciences.  
 
         </p>
         <div class="figure-single">
@@ -132,7 +129,7 @@
     <div class="container">
         <h2>Cognitive theories offer competing interpretations of model failure</h2>
         <p>
-            There are two cognitive theories of visual development that have different interpretations of why models fail on 3D tasks:      
+            There are two prominent theories of visual development that interpret model failure in different ways.     
         </p>
         <p>
             <strong>Nativists</strong> argue that perceiving 3D structure requires
@@ -141,12 +138,9 @@
         </p>
         <p>
             <strong>Empiricists</strong> argue that 3D perception emerges from
-            general-purpose learning over natural sensory experience.<sup class="cite" data-ref="helmholtz1867"></sup>
-            Under this view, models fail because they learn from the wrong <em>kind</em> of data, 
-            which doesn't reflect natural visual experience.<sup class="cite" data-ref="smith2018"></sup>
-        </p>
-        <p>There is over a century of empirical data related to these theories, 
-            but we lack computational methods to evaluate them. 
+            general-purpose learning over sensory experience.<sup class="cite" data-ref="helmholtz1867"></sup>
+            Under this view, models might fail because they learn from the wrong <em>kind</em> of data, 
+            which doesn't reflect human visual experience.<sup class="cite" data-ref="smith2018"></sup>
         </p>
     </div>
 </section>
@@ -158,16 +152,15 @@
     <div class="container narrow">
         <h2>What <em>kind</em> of sensory data do we learn from?</h2>
         <p>
-            As infants, we generate structured multi-sensory 
-            experience that unfolds over time that is inherently sequential.
+            Our visual experiences are inherently sequential, multi-modal, and spatially structured. 
             For example, retinal inputs, binocular depth, and self-motion signals 
-            might provide powerful self-supervision signals to guide perceptual learning. 
+            are abundant in human vision, 
+            and might provide powerful self-supervision signals to guide perceptual learning. 
             There is a rich history in the cognitive sciences characterizing the developmental stages
             associated with these different sensory signals. In recent years, head-mounted cameras 
             have made it possible to capture these sensory data in unprecedented detail.
-            That is, if we hope to build models of human perception 
-            we don't just need to learn from different <em>amounts</em> of data, 
-            but different data <em>types</em>. 
+            If we hope to build models of human perception, these data <em>types</em> provide an 
+            unexplored resource for modeling human visual learning. 
         </p>
 
         <div class="sensory-signals" id="sensory-signals">
@@ -203,7 +196,7 @@
 <!-- ============================================================ -->
 <section id="modeling" class="section alt-bg">
     <div class="container">
-        <h2>A new class of models leverages these visual-spatial learning signals</h2>
+        <h2>A new class of models leverages these visual-spatial sensory data</h2>
         <p>
             A recent class of vision transformers learns from structured visual-spatial data.
             Concretely, given sets of images from different viewpoints, these models (e.g., 
@@ -329,8 +322,7 @@
             By intermediate layers, each query point on A elicits focused attention to the
             <em>corresponding spatial location</em> on A&prime;&mdash;the same part of the
             object, seen from a different angle&mdash;while attention on B remains scattered.
-            The model appears to represent object similarity not through abstract category-level
-            features, but through concrete, part-level spatial correspondence that emerges
+            The model appears to represent object similarity through part-level spatial correspondence that emerges
             progressively across the network&rsquo;s depth.
         </p>
         <br>
@@ -463,14 +455,14 @@
 <footer>
     <div class="container narrow">
         <h2>Citation</h2>
-        <pre class="citation"><code>@article{bonnen2025multiview,
-  title={Human-level 3D shape perception emerges from multi-view learning},
-  author={Bonnen, Tyler and Malik, Jitendra and Kanazawa, Angjoo},
-  year={2025}
+        <pre class="citation"><code>@article{bonnen2026human,
+    title={Human-level 3D shape perception emerges from multi-view learning},
+    author={Bonnen, Tyler and Malik, Jitendra and Kanazawa, Angjoo},
+    year={2026} 
 }</code></pre>
         <div class="footer-links">
-            <a href="https://github.com/tzler/human_multiview">Code and analysis</a>
-            <a href="https://huggingface.co/datasets/tzler/MOCHI">Human experimental data</a>
+            <a href="https://github.com/tzler/human_multiview">Code</a>
+            <a href="https://huggingface.co/datasets/tzler/MOCHI">MOCHI</a>
         </div>
         <p class="acknowledgments">
             This work is supported by the NIH (Award F99NS125816) and the UC Presidential
