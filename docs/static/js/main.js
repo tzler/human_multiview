@@ -649,9 +649,54 @@ function morphClose(mask, w, h, iterations) {
     return m;
 }
 
+function fillHoles(mask, w, h) {
+    // Flood-fill from edges to find exterior background (matches scipy binary_fill_holes).
+    // Any background pixel NOT reachable from the border is a hole → fill it.
+    const visited = new Uint8Array(w * h);
+    const queue = [];
+
+    // Seed from all border background pixels
+    for (let x = 0; x < w; x++) {
+        if (!mask[x])               { visited[x] = 1; queue.push(x); }
+        const bot = (h - 1) * w + x;
+        if (!mask[bot])             { visited[bot] = 1; queue.push(bot); }
+    }
+    for (let y = 1; y < h - 1; y++) {
+        const l = y * w, r = y * w + w - 1;
+        if (!mask[l])               { visited[l] = 1; queue.push(l); }
+        if (!mask[r])               { visited[r] = 1; queue.push(r); }
+    }
+
+    // BFS
+    let head = 0;
+    while (head < queue.length) {
+        const idx = queue[head++];
+        const x = idx % w, y = (idx / w) | 0;
+        const neighbors = [];
+        if (x > 0)     neighbors.push(idx - 1);
+        if (x < w - 1) neighbors.push(idx + 1);
+        if (y > 0)     neighbors.push(idx - w);
+        if (y < h - 1) neighbors.push(idx + w);
+        for (const n of neighbors) {
+            if (!visited[n] && !mask[n]) {
+                visited[n] = 1;
+                queue.push(n);
+            }
+        }
+    }
+
+    // Unvisited background pixels are interior holes → set to foreground
+    const result = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) {
+        result[i] = (mask[i] || !visited[i]) ? 1 : 0;
+    }
+    return result;
+}
+
 function computeObjectMask(img) {
-    // Pixel-level mask with morphological cleanup (matches manuscript's approach:
-    //   binary_opening(iterations=2) then binary_closing(iterations=3))
+    // Pixel-level mask with morphological cleanup + fill holes.
+    // Uses adaptive threshold based on border pixels so it works for
+    // light-gray objects (e.g. shapenet chairs) on white backgrounds.
     if (!img) return null;
     try {
         const w = img.naturalWidth || img.width;
@@ -666,16 +711,39 @@ function computeObjectMask(img) {
         const imgData = ctx.getImageData(0, 0, maskSize, maskSize);
         const px = imgData.data;
 
-        // Build binary mask from threshold
-        let mask = new Uint8Array(maskSize * maskSize);
-        for (let i = 0; i < mask.length; i++) {
-            const gray = (px[i*4] + px[i*4+1] + px[i*4+2]) / 3;
-            mask[i] = gray < 230 ? 1 : 0;
+        // Compute grayscale values
+        const gray = new Float32Array(maskSize * maskSize);
+        for (let i = 0; i < gray.length; i++) {
+            gray[i] = (px[i*4] + px[i*4+1] + px[i*4+2]) / 3;
         }
 
-        // Morphological opening (removes noise) then closing (fills holes)
+        // Adaptive threshold: sample border pixels to find background brightness
+        let borderSum = 0, borderCount = 0;
+        for (let x = 0; x < maskSize; x++) {
+            borderSum += gray[x];                                // top row
+            borderSum += gray[(maskSize - 1) * maskSize + x];   // bottom row
+            borderCount += 2;
+        }
+        for (let y = 1; y < maskSize - 1; y++) {
+            borderSum += gray[y * maskSize];                     // left col
+            borderSum += gray[y * maskSize + maskSize - 1];      // right col
+            borderCount += 2;
+        }
+        const bgBrightness = borderSum / borderCount;
+        const threshold = bgBrightness - 12;
+
+        // Build binary mask
+        let mask = new Uint8Array(maskSize * maskSize);
+        for (let i = 0; i < mask.length; i++) {
+            mask[i] = gray[i] < threshold ? 1 : 0;
+        }
+
+        // Morphological opening (removes noise) then closing (fills gaps)
         mask = morphOpen(mask, maskSize, maskSize, 2);
         mask = morphClose(mask, maskSize, maskSize, 3);
+
+        // Fill holes (matches scipy binary_fill_holes)
+        mask = fillHoles(mask, maskSize, maskSize);
 
         // Write back to image data as alpha channel
         for (let i = 0; i < mask.length; i++) {
